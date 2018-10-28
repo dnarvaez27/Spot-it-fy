@@ -1,0 +1,25 @@
+{
+  "name": "spotify-meteor",
+  "private": true,
+  "scripts": {
+    "start": "meteor run",
+    "test": "meteor test --once --driver-package meteortesting:mocha",
+    "test-app": "TEST_WATCH=1 meteor test --full-app --driver-package meteortesting:mocha",
+    "visualize": "meteor --production --extra-packages bundle-visualizer"
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.0.0",
+    "axios": "^0.18.0",
+    "meteor-node-stubs": "^0.4.1",
+    "react": "^16.6.0",
+    "react-cookie": "^3.0.4",
+    "react-dom": "^16.6.0"
+  },
+  "meteor": {
+    "mainModule": {
+      "client": "client/main.js",
+      "server": "server/main.js"
+    },
+    "testModule": "tests/main.js"
+  }
+}
