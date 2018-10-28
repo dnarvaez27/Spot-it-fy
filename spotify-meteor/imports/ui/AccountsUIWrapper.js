@@ -9,7 +9,6 @@ export default class AccountsUIWrapper extends React.Component{
     this.container = React.createRef();
   }
 
-
   componentDidMount(){
     this.view = Blaze.render(Template.loginButtons, this.container);
   }
@@ -19,6 +18,6 @@ export default class AccountsUIWrapper extends React.Component{
   }
 
   render(){
-    return <span ref={this.container}/>;
+    return <span ref={(ref) => this.container = ref}/>;
   }
 }

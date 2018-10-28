@@ -3,7 +3,7 @@ import "./App.css";
 import { instanceOf } from "prop-types";
 import { Cookies, withCookies } from "react-cookie";
 import axios from "axios";
-import Playlist from "./playlist/Playlist";
+import AccountsUIWrapper from "./AccountsUIWrapper";
 
 export const BACKEND_URL = "http://localhost:3000";
 
@@ -31,16 +31,16 @@ class App extends Component {
     else {
       this.setState( { spotify: this.spotify } );
     }
-    setTimeout( () => {
-      this.playSong();
-    }, 1000 );
+    // setTimeout( () => {
+    //   this.playSong();
+    // }, 1000 );
   }
 
   playSong() {
     const player = new window.Spotify.Player( {
-      name: "SpotifyGuessIt",
-      getOAuthToken: cb => cb( this.spotify.access_token )
-    } );
+                                                name: "SpotifyGuessIt",
+                                                getOAuthToken: cb => cb( this.spotify.access_token )
+                                              } );
     player.addListener( "ready", ( { device_id } ) => {
       console.log( "Ready with Device ID", device_id );
       this.deviceID = device_id;
@@ -48,27 +48,27 @@ class App extends Component {
 
     // Connect to the player!
     player.connect()
-      .then( success => {
-        if ( success ) {
-          console.log( "Connected successfully" );
-        }
-      } );
+          .then( success => {
+            if ( success ) {
+              console.log( "Connected successfully" );
+            }
+          } );
   }
 
   playSongURI( uri ) {
     axios.put( `https://api.spotify.com/v1/me/player/play?device_id=${this.deviceID}`,
-      {
-        uris: [ uri ],
-        position_ms: 0 // Optional, start point
-      }, {
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${this.spotify.access_token}`
-        }
-      } )
-      .then( () => {
-        this.played = true;
-      } );
+               {
+                 uris: [ uri ],
+                 position_ms: 0 // Optional, start point
+               }, {
+                 headers: {
+                   "Content-Type": "application/json",
+                   "Authorization": `Bearer ${this.spotify.access_token}`
+                 }
+               } )
+         .then( () => {
+           this.played = true;
+         } );
   }
 
   static getPlaylist() {
@@ -89,22 +89,23 @@ class App extends Component {
   }
 
   render() {
-    let toRender = (
-      <div>SpotifyGuessIt</div>
-    );
-
-    if ( this.state.spotify.access_token ) {
-      toRender = (
-        <div>
+    return (
+      <div>
+        <AccountsUIWrapper/>
+        <div id="spotitfy-img"/>
+        <div id="spotitfy-instructions-container">
           <div>
-            <button onClick={this.toggle}>Toggle</button>
+            <h1>Select a playlist</h1>
           </div>
-          <Playlist playlistURI={App.getPlaylist()} spotify={this.state.spotify} playSong={this.playSongURI}/>
+          <div>
+            <h1>Play with your friends</h1>
+          </div>
+          <div>
+            <h1>Guess the song</h1>
+          </div>
         </div>
-      );
-    }
-
-    return (toRender);
+      </div>
+    );
   }
 }
 
