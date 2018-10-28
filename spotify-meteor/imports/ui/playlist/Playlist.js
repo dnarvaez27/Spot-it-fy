@@ -17,9 +17,9 @@ class Playlist extends Component {
   componentDidMount() {
     const url_info = `https://api.spotify.com/v1/playlists/${this.props.playlistURI}?fields=${fields}`;
     axios.get( url_info, { headers: { "Authorization": `Bearer ${this.props.spotify.access_token}` } } )
-         .then( response => {
-           this.setState( { playlist: response.data } );
-         } );
+      .then( response => {
+        this.setState( { playlist: response.data } );
+      } );
   }
 
   render() {
@@ -38,7 +38,7 @@ class Playlist extends Component {
             {this.state.playlist.tracks.items.map( ( t, i ) => {
               return (
                 <button className="song-item" onClick={() => this.props.playSong( t.track.uri )}
-                        key={i}>{t.track.name}</button>
+                  key={i}>{t.track.name}</button>
               );
             } )}
           </div>

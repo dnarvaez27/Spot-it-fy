@@ -1,37 +1,38 @@
 module.exports = {
-    'env': {
-        'browser': true,
-        'es6': true
-    },
+  "env": {
+    "browser": true,
+    "es6": true,
+    "node":  true,
+  },
 
-    'extends': [ 'eslint:recommended', 'plugin:react/recommended' ],
-    'parserOptions': {
-        'ecmaFeatures': {
-            'experimentalObjectRestSpread': true,
-            'jsx': true
-        },
-        'sourceType': 'module'
+  "extends": [ "eslint:recommended", "plugin:react/recommended" ],
+  "parserOptions": {
+    "ecmaFeatures": {
+      "experimentalObjectRestSpread": true,
+      "jsx": true
     },
-    'plugins': [
-        'react'
+    "sourceType": "module"
+  },
+  "plugins": [
+    "react"
+  ],
+  "rules": {
+    "indent": [
+      "error",
+      2
     ],
-    'rules': {
-        'indent': [
-            'error',
-            2
-        ],
-        'no-console': 'off',
-        'linebreak-style': [
-            'error',
-            'unix'
-        ],
-        'quotes': [
-            'error',
-            'double'
-        ],
-        'semi': [
-            'error',
-            'always'
-        ]
-    }
+    "no-console": "off",
+    "linebreak-style": [
+      "error",
+      "unix"
+    ],
+    "quotes": [
+      "error",
+      "double"
+    ],
+    "semi": [
+      "error",
+      "always"
+    ]
+  }
 };

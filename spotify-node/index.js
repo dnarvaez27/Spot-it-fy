@@ -20,8 +20,8 @@ app.use( express.static( __dirname + "/public" ) )
 
 const PORT = 3000;
 const TOKEN_URL = "https://accounts.spotify.com/api/token";
-const CLIENT_ID = "";
-const CLIENT_SECRET = "";
+const CLIENT_ID = "5789cb22ad144fbf94f74818e428aee7";
+const CLIENT_SECRET = "0711949e11dd4aca8315f38007cf92a6";
 const REDIRECT_URL = "http://localhost:3000/callback";
 const cookie_keys = {
   stateKey: "spotify_auth_state",
@@ -81,13 +81,13 @@ app.get( "/callback", ( req, res ) => {
         const access_token = body.access_token;
         const refresh_token = body.refresh_token;
 
-        const options = {
-          url: "https://api.spotify.com/v1/me",
-          headers: {
-            "Authorization": "Bearer " + access_token
-          },
-          json: true
-        };
+        // const options = {
+        //   url: "https://api.spotify.com/v1/me",
+        //   headers: {
+        //     "Authorization": "Bearer " + access_token
+        //   },
+        //   json: true
+        // };
 
         // use the access token to access the Spotify Web API
         // request.get(options, function (error, response, body) {
