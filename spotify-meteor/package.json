@@ -8,7 +8,7 @@
     "visualize": "meteor --production --extra-packages bundle-visualizer"
   },
   "dependencies": {
-    "@babel/runtime": "^7.0.0",
+    "@babel/runtime": "7.0.0-beta.55",
     "axios": "^0.18.0",
     "meteor-node-stubs": "^0.4.1",
     "react": "^16.6.0",
@@ -20,6 +20,6 @@
       "client": "client/main.js",
       "server": "server/main.js"
     },
-    "testModule": "tests/main.js"
+    "testModule": "test/main.js"
   }
 }
