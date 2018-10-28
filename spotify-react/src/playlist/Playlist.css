@@ -1,0 +1,12 @@
+.song-item {
+    display: block;
+    background-color: #282c34;
+    color: white;
+    border: 1px solid transparent;
+    padding: 5px;
+    cursor: pointer;
+}
+
+#songs-container{
+
+}
