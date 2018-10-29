@@ -19,7 +19,7 @@ export default class GameSetup extends Component {
     return (
       <div>
         {this.state.playListSelected?
-          <TuneParameters spotify={this.props.spotify} playlistID={this.state.playListId}/>
+          <TuneParameters spotify={this.props.spotify} playlistID={this.state.playListId} toLobby={this.props.toLobby} sessionID={this.props.sessionID}/>
           :
           <SelectPlaylist spotify={this.props.spotify} selectPlaylist={this.selectedPlaylist.bind(this)}/>
         }
@@ -31,4 +31,6 @@ export default class GameSetup extends Component {
 
 GameSetup.propTypes = {
   spotify: PropTypes.object.isRequired,
+  toLobby: PropTypes.func.isRequired,
+  sessionID: PropTypes.number.isRequired,
 };

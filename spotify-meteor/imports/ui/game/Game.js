@@ -4,18 +4,28 @@ import { Meteor } from "meteor/meteor";
 import { withTracker } from "meteor/react-meteor-data";
 import { Sessions } from "../../api/sessions";
 import "./Game.css";
+import GameSetup from "../GameSetup/GameSetup";
 
 class Game extends Component {
 
   constructor( props ) {
     super( props );
     this.state = {
-      state: 0 // 0: Select Playlists, 1: Select songs length, 2: In Lobby
+      state: this.props.status, // 0: Select Playlists, 1: Select songs length, 2: In Lobby
+      gameStart : false
     };
   }
 
+  toLobby(){
+    this.setState({state:2});
+  }
+
   render() {
-    let toRender = <div/>;
+    console.log("sessionID: ",this.props.sessionID);
+    let toRender = <p>In Lobby</p>;
+    if(this.state.state==1){
+      toRender = <GameSetup spotify={this.props.spotify_tokens} toLobby={this.toLobby.bind(this)} sessionID={this.props.sessionID}/>;
+    }
 
     return (
       <div>
@@ -59,13 +69,14 @@ class Game extends Component {
 Game.propTypes = {
   status: PropTypes.number.isRequired, // 1: Create, 2: Join
   sessionID: PropTypes.number.isRequired,
-  session: PropTypes.object
+  session: PropTypes.object,
+  spotify_tokens : PropTypes.object.isRequired,
 };
 
 export default withTracker( ( props ) => {
   Meteor.subscribe( "current-session" );
   return {
     session: Sessions.findOne( { id: props.sessionID } ),
-    sessionID: props.sessionID
+    sessionID: props.sessionID,
   };
 } )( Game );

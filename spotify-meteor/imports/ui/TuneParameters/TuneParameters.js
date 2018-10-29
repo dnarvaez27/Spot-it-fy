@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import axios from "axios";
 import "./TuneParameters.css";
+import {Meteor} from "meteor/meteor";
 
 const fields = "name,description,images,tracks.items(track(album,artists,duration_ms,id,name,uri))";
 
@@ -22,10 +23,19 @@ export default class TuneParameters extends Component {
         this.setState( { playlist: response.data } );
       } );
   }
+  randomSample(arr,num){
+    let b = JSON.parse(JSON.stringify(arr));
+    let ans= [];
+    for(let i=0;i<num;i++){
+      const index = Math.floor(Math.random()*b.length);
+      ans.push(b.splice(index,1)[0]);
+    }
+    return ans;
+  }
 
   submitForm(){
     const locTracks = this.numTracks.current.value;
-    const locDur = this.durTracks.current.value;
+    const locDur = parseInt(this.durTracks.current.value);
     if(locTracks<=0){
       alert("The number of tracks must be positive.");
       
@@ -39,7 +49,25 @@ export default class TuneParameters extends Component {
           alert("The duration of the track must be between 5 and 30 seconds long.");
         }
         else{
-          //START GAME
+
+          let tracks = this.randomSample(this.state.playlist.tracks.items,locTracks);
+          let cleanTracks = [];
+          for(let t of tracks){
+            cleanTracks.push({uri: t.track.uri});
+          }
+          let playlist = 
+                            { id:this.props.playlistID,
+                              tracks:cleanTracks};
+
+          console.log("sessionID: ",this.props.sessionID);
+          console.log("playlist: ",playlist);
+          console.log("locDur: ",locDur);
+
+          Meteor.call( "session.config", this.props.sessionID, playlist,locDur,
+            () => {
+              console.log("session config updated succesfully.");
+              this.props.toLobby();
+            } );
         }
       }
     }
@@ -90,6 +118,8 @@ export default class TuneParameters extends Component {
               </div>
             </div>
           </form>
+          <br/>
+          <br/>
 
         </div>
       );
@@ -106,4 +136,6 @@ export default class TuneParameters extends Component {
 TuneParameters.propTypes = {
   spotify: PropTypes.object.isRequired,
   playlistID : PropTypes.string.isRequired,
+  toLobby: PropTypes.func.isRequired,
+  sessionID: PropTypes.number.isRequired,
 };
