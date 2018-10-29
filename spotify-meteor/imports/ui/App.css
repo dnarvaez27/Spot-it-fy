@@ -71,7 +71,6 @@ body {
     z-index: 1;
     border: 2px solid white;
     color: white;
-    width: 80%;
 }
 
 #spotitfy-instructions-container > div:nth-child(2) {

@@ -87,6 +87,10 @@ class App extends Component {
       </div>
     );
 
+    if ( this.imgBannerRef.current ) {
+      this.imgBannerRef.current.classList.remove( "banner-non-display" );
+    }
+
     return (
       <div>
         <AccountsUIWrapper/>
