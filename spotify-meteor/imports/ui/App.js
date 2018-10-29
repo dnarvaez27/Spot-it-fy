@@ -4,6 +4,7 @@ import { instanceOf } from "prop-types";
 import { Cookies, withCookies } from "react-cookie";
 import axios from "axios";
 import AccountsUIWrapper from "./AccountsUIWrapper";
+import GameSetup from "./GameSetup/GameSetup";
 
 export const BACKEND_URL = "http://localhost:3000";
 
@@ -90,20 +91,23 @@ class App extends Component {
 
   render() {
     return (
+      // <div>
+      //   <AccountsUIWrapper/>
+      //   <div id="spotitfy-img"/>
+      //   <div id="spotitfy-instructions-container">
+      //     <div>
+      //       <h1>Select a playlist</h1>
+      //     </div>
+      //     <div>
+      //       <h1>Play with your friends</h1>
+      //     </div>
+      //     <div>
+      //       <h1>Guess the song</h1>
+      //     </div>
+      //   </div>
+      // </div>
       <div>
-        <AccountsUIWrapper/>
-        <div id="spotitfy-img"/>
-        <div id="spotitfy-instructions-container">
-          <div>
-            <h1>Select a playlist</h1>
-          </div>
-          <div>
-            <h1>Play with your friends</h1>
-          </div>
-          <div>
-            <h1>Guess the song</h1>
-          </div>
-        </div>
+        <GameSetup spotify={this.state.spotify}/>
       </div>
     );
   }

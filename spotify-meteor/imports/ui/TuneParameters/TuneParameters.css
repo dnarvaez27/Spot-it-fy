@@ -1,0 +1,62 @@
+.playlistContainer {
+  display: flex;
+  margin:30px;
+  justify-content: center;
+}
+h1,h2,h3,p,label {
+  color: var(--white);
+  text-align: left;
+}
+
+.playlistImage {
+  width:230px;
+  height: 230px;
+}
+
+.playlistDetails {
+  text-align: left;
+  margin:20px;
+}
+.configForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.playButton{
+  background-color: var(--green);
+  color: var(--white);
+  border-radius: 10px;
+  padding: 12px 20px;
+  border: none;
+  cursor: pointer;
+  font-size: 20px;
+  width: 120px;
+  outline-width: 0; 
+}
+.buttonDiv{
+  text-align: center;
+  
+}
+.coolInput{
+  width: 300px;
+  height: 25px;
+  background-color: #3a3f4b;
+  border-radius: 5px;
+  color: var(--white);
+  text-align: center;
+  border-color: var(--white);
+  border-style: none;
+  font-size: 20px;
+}
+
+.coolInput:focus {
+  outline-width: 0;
+}
+
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+

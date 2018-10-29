@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import axios from "axios";
 import "./Playlist.css";
 
-const fields = "name,description,images,tracks.items(track(album,artists,duration_ms,id,name,uri))";
+const fields = "name,description,images";
 
 class Playlist extends Component {
 
@@ -15,33 +15,33 @@ class Playlist extends Component {
   }
 
   componentDidMount() {
-    const url_info = `https://api.spotify.com/v1/playlists/${this.props.playlistURI}?fields=${fields}`;
+    const url_info = `https://api.spotify.com/v1/playlists/${this.props.playlist.ID}?fields=${fields}`;
     axios.get( url_info, { headers: { "Authorization": `Bearer ${this.props.spotify.access_token}` } } )
       .then( response => {
         this.setState( { playlist: response.data } );
       } );
   }
 
-  render() {
 
+  render() {
+    
     let toRender = (
-      <div>Loading</div>
+      <div className="cssload-spin-box"></div>
     );
 
     if ( this.state.playlist ) {
+      
       toRender = (
-        <div>
-          <h1>{this.state.playlist.name}</h1>
-          <img alt="playlist-cover" src={this.state.playlist.images[ 1 ].url}/>
+        <div className="playlistInfoContainer">
+        
+          <img onClick={()=>this.props.selectPlaylist(this.props.playlist.ID)} alt="playlist-cover" src={this.state.playlist.images[ 0 ].url}/>
+          
+          <h2>{this.state.playlist.name}</h2>
 
-          <div id="songs-container">
-            {this.state.playlist.tracks.items.map( ( t, i ) => {
-              return (
-                <button className="song-item" onClick={() => this.props.playSong( t.track.uri )}
-                  key={i}>{t.track.name}</button>
-              );
-            } )}
+          <div className="paraDescription">
+            <p>{this.state.playlist.description}</p>
           </div>
+          
         </div>
       );
     }
@@ -53,9 +53,9 @@ class Playlist extends Component {
 }
 
 Playlist.propTypes = {
-  playlistURI: PropTypes.string.isRequired,
   spotify: PropTypes.object.isRequired,
-  playSong: PropTypes.func.isRequired
+  playlist: PropTypes.object.isRequired,
+  selectPlaylist: PropTypes.func.isRequired,
 };
 
 export default Playlist;

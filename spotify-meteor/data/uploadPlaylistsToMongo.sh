@@ -1,0 +1,1 @@
+mongoimport --jsonArray --db meteor --collection playlists --port 3002 --file playlists.json
