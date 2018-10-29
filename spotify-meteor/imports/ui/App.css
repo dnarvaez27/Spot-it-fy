@@ -44,11 +44,13 @@ body {
 #login-buttons button.login-button {
     background-color: var(--green);
     border: 1px solid transparent;
+    font-weight: bold;
 }
 
 #login-buttons .login-button:hover, .accounts-dialog .login-button:hover {
     background-color: var(--white);
-    border: 1px solid var(--black);
+    color: var(--green);
+    border: 1px solid var(--green);
 }
 
 .login-button .login-button-form-submit {

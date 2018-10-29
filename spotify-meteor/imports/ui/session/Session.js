@@ -6,6 +6,7 @@ import { Sessions } from "../../api/sessions";
 import "./Session.css";
 import Game from "../game/Game";
 import { Cookies, withCookies } from "react-cookie";
+// import axios from "axios";
 import { BACKEND_URL } from "../App";
 
 class Session extends Component {
@@ -28,11 +29,9 @@ class Session extends Component {
     };
 
     if ( !spotify.access_token ) {
-
       const goToAuth = () => {
         window.open( `${BACKEND_URL}/login`, "_self" );
       };
-
       this.props.openModal( {
         title: "Authorize us to use Spotify",
         body: (
@@ -48,15 +47,29 @@ class Session extends Component {
           </div>
         )
       }, undefined, () => false );
+      // setTimeout(() =>{
+      //   axios.get(`${BACKEND_URL}/refresh_token?refresh_token=${this.props.user.rToken}`)
+      //     .then( response => {
+      //       let spotify_tokens = this.state.spotify_tokens;
+      //       console.log(spotify_tokens);
+      //       spotify_tokens["access_token"] = response.data.access_token;
+      //       console.log(spotify_tokens);
+      //       this.setState( { spotify_tokens } );
+      //     })
+      //     .catch(() => {
+      //       console.log("error en el Token");
+      //
+      //     });
+      // }, 1000);
     }
     else {
       Meteor.call( "user.addRefreshToken", this.props.user._id, spotify.redirect_token );
-      this.setState( { spotify_tokens: spotify } );
+      this.setState( { spotify_tokens: spotify }, ( ) => {
+        setTimeout( () => {
+          this.initPlayer();
+        }, 1000 );
+      } );
     }
-
-    setTimeout( () => {
-      this.initPlayer();
-    }, 1000 );
   }
 
   initPlayer() {
@@ -68,6 +81,9 @@ class Session extends Component {
     player.addListener( "ready", ( { device_id } ) => {
       console.log( "Player ready with device ID", device_id );
       this.deviceID = device_id;
+      let spotify_tokens = this.state.spotify_tokens;
+      spotify_tokens.deviceID = device_id;
+      this.setState({spotify_tokens });
     } );
 
     // Connect to the player!
@@ -169,6 +185,7 @@ class Session extends Component {
 
 export default withTracker( () => {
   Meteor.subscribe( "sessions" );
+  Meteor.subscribe( "user.info" );
 
   return {
     sessions: Sessions.find( {} ).count(),

@@ -20,8 +20,8 @@ app.use( express.static( __dirname + "/public" ) )
 
 const PORT = 3000;
 const TOKEN_URL = "https://accounts.spotify.com/api/token";
-const CLIENT_ID = "";
-const CLIENT_SECRET = "";
+const CLIENT_ID = "fd95c5089ee245fb9d1c4d5742ccfc2f";
+const CLIENT_SECRET = "583786e7bab44075b333f7ae323b35ae";
 const REDIRECT_URL = "http://localhost:3000/callback";
 const cookie_keys = {
   stateKey: "spotify_auth_state",
@@ -116,6 +116,9 @@ app.get( "/refresh_token", ( req, res ) => {
   request.post( authOptions, function ( error, response, body ) {
     if ( !error && response.statusCode === 200 ) {
       const access_token = body.access_token;
+      const expire = body.expires_in * 1000;
+
+      res.cookie( cookie_keys.access_token, access_token,  {maxAge : expire} );
       res.send( {
         "access_token": access_token
       } );
