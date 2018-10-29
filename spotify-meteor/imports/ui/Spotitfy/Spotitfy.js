@@ -24,7 +24,7 @@ export default class Spotitfy extends Component {
   }
 
   componentDidMount(){
-    this.playSongURI(this.props.session.config.playlist.tracks[0]);
+    this.playSongURI(this.props.session.config.playlist.tracks[0].uri);
   }
 
   // getSnapshotBeforeUpdate(prevProps, prevState){
