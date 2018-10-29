@@ -36,10 +36,10 @@ class Playlist extends Component {
         
           <img onClick={()=>this.props.selectPlaylist(this.props.playlist.ID)} alt="playlist-cover" src={this.state.playlist.images[ 0 ].url}/>
           
-          <h2>{this.state.playlist.name}</h2>
+          <h2 className="fixFuckup2">{this.state.playlist.name}</h2>
 
           <div className="paraDescription">
-            <p>{this.state.playlist.description}</p>
+            <p className="fixFuckup2">{this.state.playlist.description}</p>
           </div>
           
         </div>

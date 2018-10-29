@@ -57,13 +57,14 @@ export default class TuneParameters extends Component {
           }
           let playlist = 
                             { id:this.props.playlistID,
-                              tracks:cleanTracks};
+                              tracks:cleanTracks,
+                              name: this.state.playlist.name};
 
-          console.log("sessionID: ",this.props.sessionID);
-          console.log("playlist: ",playlist);
-          console.log("locDur: ",locDur);
+          // console.log("sessionID: ",this.props.sessionID);
+          // console.log("playlist: ",playlist);
+          // console.log("locDur: ",locDur);
 
-          Meteor.call( "session.config", this.props.sessionID, playlist,locDur,
+          Meteor.call( "session.config", this.props.sessionID, playlist,locDur,this.state.playlist.images[ 0 ].url,
             () => {
               console.log("session config updated succesfully.");
               this.props.toLobby();
@@ -89,24 +90,24 @@ export default class TuneParameters extends Component {
           <div className="playlistContainer">
             <img className="playlistImage" alt="playlist-cover" src={this.state.playlist.images[ 0 ].url}/>
             <div className="playlistDetails">
-              <p>PLAYLIST</p>
-              <h1>{this.state.playlist.name}</h1>
-              <p>Tracks: {this.state.playlist.tracks.items.length}</p>
+              <p className="fixFuckup">PLAYLIST</p>
+              <h1 className="fixFuckup">{this.state.playlist.name}</h1>
+              <p className="fixFuckup">Tracks: {this.state.playlist.tracks.items.length}</p>
             </div>
           </div>
 
           
           <form className="configForm">
             <div className="labelContainer">
-              <label >
-                <h2>
+              <label className="fixFuckup">
+                <h2 className="fixFuckup">
                   Number of tracks:
                 </h2>
                 <input className="coolInput" type="number" name="#ofTracks" ref={this.numTracks}/>
               </label>
 
-              <label type="number" >
-                <h2>
+              <label className="fixFuckup">
+                <h2 className="fixFuckup">
                   Duration of each track (seconds):
                 </h2>
                 <input className="coolInput" type="number" name="durationOfTrack" ref={this.durTracks}/>
@@ -114,7 +115,7 @@ export default class TuneParameters extends Component {
               <br/>
               <br/>
               <div className="buttonDiv">
-                <input className="playButton" onClick={this.submitForm.bind(this)} type="button" value="Play" />
+                <input className="playButton" onClick={this.submitForm.bind(this)} type="button" value="Save configurations" />
               </div>
             </div>
           </form>

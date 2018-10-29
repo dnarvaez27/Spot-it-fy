@@ -23,6 +23,7 @@
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
+    margin-left: 20px;
 }
 
 #session-info-text > span {
@@ -31,4 +32,28 @@
 
 .session-info-label {
     color: lightgray;
+}
+
+.bannerImg {
+    width:130px;
+    height: 130px;
+}
+.pleaseWait {
+    color: var(--white);
+    text-align: center;
+}
+.gameStart {
+    background-color: var(--green);
+    color: var(--white);
+    border-radius: 10px;
+    padding: 12px 20px;
+    border: none;
+    cursor: pointer;
+    font-size: 20px;
+    width: 200px;
+    outline-width: 0; 
+    
+}
+.playButtonContainer{
+    text-align: center;
 }

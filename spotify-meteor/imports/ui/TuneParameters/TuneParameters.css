@@ -3,7 +3,7 @@
   margin:30px;
   justify-content: center;
 }
-h1,h2,h3,p,label {
+.fixFuckup {
   color: var(--white);
   text-align: left;
 }
@@ -31,7 +31,7 @@ h1,h2,h3,p,label {
   border: none;
   cursor: pointer;
   font-size: 20px;
-  width: 120px;
+  width: 230px;
   outline-width: 0; 
 }
 .buttonDiv{
@@ -39,7 +39,7 @@ h1,h2,h3,p,label {
   
 }
 .coolInput{
-  width: 300px;
+  width: 350px;
   height: 25px;
   background-color: #3a3f4b;
   border-radius: 5px;

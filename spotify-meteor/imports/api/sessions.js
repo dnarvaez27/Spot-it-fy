@@ -21,7 +21,8 @@ Meteor.methods( {
       id: id,
       createdAt: new Date(),
       users: m_user,
-      config: {}
+      config: {},
+      gameStart:false
     } );
   },
   "session.join"( id, user ) {
@@ -40,14 +41,15 @@ Meteor.methods( {
       { "$set": temp }
     );
   },
-  "session.config"( id, playlist, duration ) {
+  "session.config"( id, playlist, duration,imageUrl ) {
     check( id, Number );
     check( playlist, Object );
     check( duration, Number );
+    check(imageUrl, String);
 
     Sessions.update(
       { id: id },
-      { "$set": { "config": { playlist, duration } } }
+      { "$set": { "config": { playlist, duration, imageUrl } } }
     );
   },
   "session.addPoint"( id, user ) {
@@ -59,6 +61,14 @@ Meteor.methods( {
     Sessions.update(
       { id: id },
       { "$inc": up }
+    );
+  },
+  "session.startGame"( id ) {
+    check( id, Number );
+    
+    Sessions.update(
+      { id: id },
+      { "$set": { "gameStart": true } } 
     );
   }
 } );
