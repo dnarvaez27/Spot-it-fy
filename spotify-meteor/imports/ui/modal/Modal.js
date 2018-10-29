@@ -27,11 +27,11 @@ class Modal extends Component {
     }, () => cbck && cbck() );
   }
 
-  showError(err){
-    this.setState({error: err});
+  showError( err ) {
+    this.setState( { error: err } );
   }
 
-  closeModal(){
+  closeModal() {
     if ( !(this.state.onClose && !this.state.onClose()) ) {
       this.setState( {
         title: undefined,

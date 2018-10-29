@@ -2,19 +2,28 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import axios from "axios";
 import "./TuneParameters.css";
-import {Meteor} from "meteor/meteor";
+import { Meteor } from "meteor/meteor";
 
 const fields = "name,description,images,tracks.items(track(album,artists,duration_ms,id,name,uri))";
 
+export const randomSamples = function ( arr, num ) {
+  let b = JSON.parse( JSON.stringify( arr ) );
+  let ans = [];
+  for ( let i = 0; i < num; i++ ) {
+    const index = Math.floor( Math.random() * b.length );
+    ans.push( b.splice( index, 1 )[ 0 ] );
+  }
+  return ans;
+};
+
 export default class TuneParameters extends Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {playlist:undefined};
+  constructor( props ) {
+    super( props );
+    this.state = { playlist: undefined };
     this.numTracks = React.createRef();
     this.durTracks = React.createRef();
   }
-  
 
   componentDidMount() {
     const url_info = `https://api.spotify.com/v1/playlists/${this.props.playlistID}?fields=${fields}`;
@@ -23,51 +32,44 @@ export default class TuneParameters extends Component {
         this.setState( { playlist: response.data } );
       } );
   }
-  randomSample(arr,num){
-    let b = JSON.parse(JSON.stringify(arr));
-    let ans= [];
-    for(let i=0;i<num;i++){
-      const index = Math.floor(Math.random()*b.length);
-      ans.push(b.splice(index,1)[0]);
-    }
-    return ans;
-  }
 
-  submitForm(){
+  submitForm() {
     const locTracks = this.numTracks.current.value;
-    const locDur = parseInt(this.durTracks.current.value);
-    if(locTracks<=0){
-      alert("The number of tracks must be positive.");
-      
-    }
-    else{
-      if(locTracks>this.state.playlist.tracks.items.length){
-        alert("The number of tracks must be less than or equal than those of the playlist ("+this.state.playlist.tracks.items.length+" tracks).");
-      }   
-      else{
-        if(locDur>30 || locDur<5){
-          alert("The duration of the track must be between 5 and 30 seconds long.");
-        }
-        else{
+    const locDur = parseInt( this.durTracks.current.value );
+    if ( locTracks <= 0 ) {
+      alert( "The number of tracks must be positive." );
 
-          let tracks = this.randomSample(this.state.playlist.tracks.items,locTracks);
+    }
+    else {
+      if ( locTracks > this.state.playlist.tracks.items.length ) {
+        alert( "The number of tracks must be less than or equal than those of the playlist (" + this.state.playlist.tracks.items.length + " tracks)." );
+      }
+      else {
+        if ( locDur > 30 || locDur < 5 ) {
+          alert( "The duration of the track must be between 5 and 30 seconds long." );
+        }
+        else {
+
+          let tracks = randomSamples( this.state.playlist.tracks.items, locTracks );
           let cleanTracks = [];
-          for(let t of tracks){
-            cleanTracks.push({uri: t.track.uri});
+          for ( let t of tracks ) {
+            cleanTracks.push( { uri: t.track.uri } );
           }
-          let playlist = 
-                            { id:this.props.playlistID,
-                              tracks:cleanTracks,
-                              name: this.state.playlist.name};
+          let playlist =
+            {
+              id: this.props.playlistID,
+              tracks: cleanTracks,
+              name: this.state.playlist.name
+            };
 
           // console.log("sessionID: ",this.props.sessionID);
           // console.log("playlist: ",playlist);
           // console.log("locDur: ",locDur);
 
-          Meteor.call( "session.config", this.props.sessionID, playlist,locDur,this.state.playlist.images[ 0 ].url,
+          Meteor.call( "session.config", this.props.sessionID, playlist, locDur, this.state.playlist.images[ 0 ].url,
             () => {
-              console.log("session config updated succesfully.");
-              this.props.toLobby();
+              console.log( "session config updated succesfully." );
+              this.props.toLobby( this.state.playlist );
             } );
         }
       }
@@ -75,18 +77,14 @@ export default class TuneParameters extends Component {
   }
 
   render() {
-    
 
     let toRender = (
-      <div className="cssload-spin-box"></div>
+      <div className="cssload-spin-box"/>
     );
 
-    if(this.state.playlist){
-      console.log(this.state.playlist);
-      console.log(this.state.playlist.tracks.items.length);
-      toRender=(
+    if ( this.state.playlist ) {
+      toRender = (
         <div>
-
           <div className="playlistContainer">
             <img className="playlistImage" alt="playlist-cover" src={this.state.playlist.images[ 0 ].url}/>
             <div className="playlistDetails">
@@ -96,7 +94,6 @@ export default class TuneParameters extends Component {
             </div>
           </div>
 
-          
           <form className="configForm">
             <div className="labelContainer">
               <label className="fixFuckup">
@@ -115,7 +112,8 @@ export default class TuneParameters extends Component {
               <br/>
               <br/>
               <div className="buttonDiv">
-                <input className="playButton" onClick={this.submitForm.bind(this)} type="button" value="Save configurations" />
+                <input className="playButton" onClick={this.submitForm.bind( this )} type="button"
+                  value="Save configurations"/>
               </div>
             </div>
           </form>
@@ -125,18 +123,16 @@ export default class TuneParameters extends Component {
         </div>
       );
     }
-    
+
 
     return (toRender);
   }
 }
 
 
-
-
 TuneParameters.propTypes = {
   spotify: PropTypes.object.isRequired,
-  playlistID : PropTypes.string.isRequired,
+  playlistID: PropTypes.string.isRequired,
   toLobby: PropTypes.func.isRequired,
   sessionID: PropTypes.number.isRequired,
 };

@@ -1,16 +1,16 @@
-.SelectPlaylist { 
-  color: var(--white);
+.SelectPlaylist {
+    color: var(--white);
 
 }
 
-.playlistsContainer { 
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  justify-content: space-between;
-  margin:80px;
+.playlistsContainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    justify-content: space-between;
+    margin: 80px;
 }
 
-.playlistsTitle{
-  text-align: center;
+.playlistsTitle {
+    text-align: center;
 }

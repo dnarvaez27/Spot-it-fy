@@ -5,24 +5,26 @@ export default class BasicInfo extends Component {
   render() {
     return (
       <div id="session-info-container">
-        {this.props.session.config.duration===undefined?
+        <button onClick={() => this.props.changeState(0)}>
+          <i className="fas fa-chevron-left"/>
+        </button>
+        {this.props.session.config.duration === undefined ?
           <div id="session-img"/>
           :
           <img className="bannerImg" src={this.props.session.config.imageUrl} alt="playlistImage"/>
         }
         <div id="session-info-text">
           <div>SessionID: {this.props.session.id}</div>
-          {this.props.session.config.duration===undefined?
+          {this.props.session.config.duration === undefined ?
             <h1>-</h1>
             :
             <h1>{this.props.session.config.playlist.name}</h1>
           }
-          
 
           <span>
             <span className="session-info-label">Session created by: </span>
             <b>
-              {Object.keys(this.props.session.users)[0]}
+              {Object.keys( this.props.session.users )[ 0 ]}
             </b>
           </span>
 
@@ -51,4 +53,5 @@ export default class BasicInfo extends Component {
 
 BasicInfo.propTypes = {
   session: PropTypes.object.isRequired,
+  changeState:PropTypes.func
 };

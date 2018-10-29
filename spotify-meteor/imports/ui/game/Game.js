@@ -14,32 +14,35 @@ class Game extends Component {
   constructor( props ) {
     super( props );
     this.state = {
-      state: this.props.status, // 0: Select Playlists, 1: Select songs length, 2: In Lobby
+      state: this.props.status, // 0: Select Playlists, 1: Select songs length, 2: In Lobby,
+      playlistData: undefined
     };
   }
 
-  toLobby(){
-    this.setState({state:2});
+  toLobby( fullPlaylist ) {
+    this.setState( { state: 2, playlistData: fullPlaylist } );
   }
-  startGame(){
-    Meteor.call("session.startGame",this.props.sessionID);
+
+  startGame() {
+    Meteor.call( "session.startGame", this.props.sessionID );
   }
 
   render() {
     // console.log("sessionID: ",this.props.sessionID);
     let toRender = <Players session={this.props.session}/>;
-    if(this.state.state==1){
-      toRender = <GameSetup spotify={this.props.spotify_tokens} toLobby={this.toLobby.bind(this)} sessionID={this.props.sessionID}/>;
+    if ( this.state.state === 1 ) {
+      toRender = <GameSetup spotify={this.props.spotify_tokens} toLobby={this.toLobby.bind( this )}
+        sessionID={this.props.sessionID}/>;
     }
 
     let pregame = (<div>
-      <BasicInfo session={this.props.session}/>
-      {Meteor.user().username==Object.keys(this.props.session.users)[0]?
-        this.props.session.config.duration===undefined?
+      <BasicInfo session={this.props.session} changeState={this.props.changeState}/>
+      {Meteor.user().username === Object.keys( this.props.session.users )[ 0 ] ?
+        this.props.session.config.duration === undefined ?
           ""
           :
           <div className="playButtonContainer">
-            <button onClick={this.startGame.bind(this)} className="gameStart">Start game</button>
+            <button onClick={this.startGame.bind( this )} className="gameStart">Start game</button>
           </div>
         :
         <h1 className="pleaseWait">Please wait while party leader starts the game</h1>}
@@ -48,8 +51,12 @@ class Game extends Component {
 
     return (
       <div>
-        {this.props.session.gameStart?
-          <Spotitfy session={this.props.session} spotify_tokens={this.props.spotify_tokens}/>
+        {this.props.session.gameStart ?
+          <Spotitfy
+            session={this.props.session}
+            spotify_tokens={this.props.spotify_tokens}
+            fullPlaylist={this.state.playlistData}
+            changeState={this.props.changeState}/>
           :
           pregame}
       </div>
@@ -61,7 +68,8 @@ Game.propTypes = {
   status: PropTypes.number.isRequired, // 1: Create, 2: Join
   sessionID: PropTypes.number.isRequired,
   session: PropTypes.object,
-  spotify_tokens : PropTypes.object.isRequired,
+  spotify_tokens: PropTypes.object.isRequired,
+  changeState: PropTypes.func
 };
 
 export default withTracker( ( props ) => {

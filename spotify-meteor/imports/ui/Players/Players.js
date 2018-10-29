@@ -7,17 +7,17 @@ export default class Players extends Component {
     return (
       <div>
         <h2 className="whiteAndCenter">Players</h2>
-        
-        {Object.keys(this.props.session.users).map(user =>{
+
+        {Object.keys( this.props.session.users ).map( user => {
           return <div className="user whiteAndCenter" key={user}>{user}</div>;
-        })}
-        
+        } )}
+
       </div>
     );
   }
 }
 
 
-Players.propTypes ={
-  session : PropTypes.object.isRequired,
+Players.propTypes = {
+  session: PropTypes.object.isRequired,
 };

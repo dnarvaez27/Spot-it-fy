@@ -1,62 +1,66 @@
 .playlistContainer {
-  display: flex;
-  margin:30px;
-  justify-content: center;
+    display: flex;
+    margin: 30px;
+    justify-content: center;
 }
+
 .fixFuckup {
-  color: var(--white);
-  text-align: left;
+    color: var(--white);
+    text-align: left;
 }
 
 .playlistImage {
-  width:230px;
-  height: 230px;
+    width: 230px;
+    height: 230px;
 }
 
 .playlistDetails {
-  text-align: left;
-  margin:20px;
-}
-.configForm {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+    text-align: left;
+    margin: 20px;
 }
 
-.playButton{
-  background-color: var(--green);
-  color: var(--white);
-  border-radius: 10px;
-  padding: 12px 20px;
-  border: none;
-  cursor: pointer;
-  font-size: 20px;
-  width: 230px;
-  outline-width: 0; 
+.configForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
-.buttonDiv{
-  text-align: center;
-  
+
+.playButton {
+    background-color: var(--green);
+    color: var(--white);
+    border-radius: 10px;
+    padding: 12px 20px;
+    border: none;
+    cursor: pointer;
+    font-size: 20px;
+    width: 230px;
+    outline-width: 0;
 }
-.coolInput{
-  width: 350px;
-  height: 25px;
-  background-color: #3a3f4b;
-  border-radius: 5px;
-  color: var(--white);
-  text-align: center;
-  border-color: var(--white);
-  border-style: none;
-  font-size: 20px;
+
+.buttonDiv {
+    text-align: center;
+
+}
+
+.coolInput {
+    width: 350px;
+    height: 25px;
+    background-color: #3a3f4b;
+    border-radius: 5px;
+    color: var(--white);
+    text-align: center;
+    border-color: var(--white);
+    border-style: none;
+    font-size: 20px;
 }
 
 .coolInput:focus {
-  outline-width: 0;
+    outline-width: 0;
 }
 
-input[type=number]::-webkit-inner-spin-button, 
-input[type=number]::-webkit-outer-spin-button { 
-  -webkit-appearance: none; 
-  margin: 0; 
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
 }
 

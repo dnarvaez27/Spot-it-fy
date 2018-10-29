@@ -20,6 +20,7 @@ class Session extends Component {
     };
     this.createSession = this.createSession.bind( this );
     this.joinSession = this.joinSession.bind( this );
+    this.changeState = this.changeState.bind( this );
   }
 
   componentDidMount() {
@@ -64,7 +65,7 @@ class Session extends Component {
     }
     else {
       Meteor.call( "user.addRefreshToken", this.props.user._id, spotify.redirect_token );
-      this.setState( { spotify_tokens: spotify }, ( ) => {
+      this.setState( { spotify_tokens: spotify }, () => {
         setTimeout( () => {
           this.initPlayer();
         }, 1000 );
@@ -83,7 +84,7 @@ class Session extends Component {
       this.deviceID = device_id;
       let spotify_tokens = this.state.spotify_tokens;
       spotify_tokens.deviceID = device_id;
-      this.setState({spotify_tokens });
+      this.setState( { spotify_tokens } );
     } );
 
     // Connect to the player!
@@ -117,7 +118,7 @@ class Session extends Component {
             self.setState( { state: 2, sessionID: sessionID } );
             self.props.closeModal();
           }
-          else{
+          else {
             self.props.showErrorModal( error.error );
           }
         } );
@@ -153,6 +154,11 @@ class Session extends Component {
     } );
   }
 
+  changeState(num){
+    this.props.imgBannerRef.current.classList.remove( "banner-non-display" );
+    this.setState({state: num});
+  }
+
   render() {
     let status = undefined;
 
@@ -171,7 +177,11 @@ class Session extends Component {
     else {
       this.props.imgBannerRef.current.classList.add( "banner-non-display" );
       status = (
-        <Game spotify_tokens={this.state.spotify_tokens} status={this.state.state} sessionID={this.state.sessionID}/>
+        <Game
+          spotify_tokens={this.state.spotify_tokens}
+          status={this.state.state}
+          sessionID={this.state.sessionID}
+          changeState={this.changeState}/>
       );
     }
 

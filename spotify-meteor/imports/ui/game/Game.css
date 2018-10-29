@@ -19,7 +19,7 @@
     line-height: 0;
 }
 
-#session-info-text{
+#session-info-text {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
@@ -35,13 +35,15 @@
 }
 
 .bannerImg {
-    width:130px;
+    width: 130px;
     height: 130px;
 }
+
 .pleaseWait {
     color: var(--white);
     text-align: center;
 }
+
 .gameStart {
     background-color: var(--green);
     color: var(--white);
@@ -51,9 +53,10 @@
     cursor: pointer;
     font-size: 20px;
     width: 200px;
-    outline-width: 0; 
-    
+    outline-width: 0;
+
 }
-.playButtonContainer{
+
+.playButtonContainer {
     text-align: center;
 }

@@ -3,15 +3,49 @@ import BasicInfo from "../BasicInfo/BasicInfo";
 import PropTypes from "prop-types";
 import "./Spotitfy.css";
 import axios from "axios";
+import { randomSamples } from "../TuneParameters/TuneParameters";
+import { Meteor } from "meteor/meteor";
+import { withTracker } from "meteor/react-meteor-data";
+import { Sessions } from "../../api/sessions";
 
-export default class Spotitfy extends Component {
 
-  
-  playSongURI( uri ) {
-    axios.put( `https://api.spotify.com/v1/me/player/play?device_id=${this.props.spotify_tokens.deviceID}`,
+function shuffle( a ) {
+  for ( let i = a.length - 1; i > 0; i-- ) {
+    const j = Math.floor( Math.random() * (i + 1) );
+    [ a[ i ], a[ j ] ] = [ a[ j ], a[ i ] ];
+  }
+  return a;
+}
+
+class Spotitfy extends Component {
+
+  constructor( props ) {
+    super( props );
+    this.state = {
+      currentTrack: props.curr_session.currentSong,
+      options: [],
+      actualTrack: undefined,
+      disabled: false
+    };
+    this.selectOption = this.selectOption.bind( this );
+    this.timeout = undefined;
+  }
+
+  componentDidMount() {
+    this.next();
+  }
+
+  componentDidUpdate( prevProps ) {
+    if ( prevProps.curr_session.currentSong !== this.props.curr_session.currentSong ) {
+      this.next();
+    }
+  }
+
+  playSongURI( uri, toggle = true, cbck ) {
+    axios.put( `https://api.spotify.com/v1/me/player/${toggle ? "play" : "pause"}?device_id=${this.props.spotify_tokens.deviceID}`,
       {
         uris: [ uri ],
-        position_ms: 0 // Optional, start point
+        position_ms: 30000 // Optional, start point
       }, {
         headers: {
           "Content-Type": "application/json",
@@ -19,31 +53,93 @@ export default class Spotitfy extends Component {
         }
       } )
       .then( () => {
-        this.played = true;
+        if ( cbck ) {
+          cbck();
+        }
       } );
   }
 
-  componentDidMount(){
-    this.playSongURI(this.props.session.config.playlist.tracks[0].uri);
+  next() {
+    if ( this.state.currentTrack < this.props.curr_session.config.playlist.tracks.length ) {
+      // Se que se puede mejorar, pero por tiempo...
+      let opts = randomSamples( this.props.fullPlaylist.tracks.items, 4 );
+      opts = opts.map( t => {
+        let track = t.track.name;
+        let artists = t.track.artists.map( a => a.name ).join( ", " );
+        return `${track} - ${artists}`;
+      } );
+
+      const orig = this.props.fullPlaylist.tracks.items.filter( i => {
+        return i.track.uri === this.props.curr_session.config.playlist.tracks[ this.state.currentTrack ].uri;
+      } )[ 0 ];
+      let daTrack = `${orig.track.name} - ${orig.track.artists.map( a => a.name ).join( ", " )}`;
+      opts.push( daTrack );
+      opts = shuffle( opts );
+
+      this.setState( { currentTrack: this.state.currentTrack + 1, options: opts, actualTrack: daTrack, disabled: false },
+        () => {
+          this.timeout && clearTimeout(this.timeout);
+          this.playSongURI( this.props.curr_session.config.playlist.tracks[ this.state.currentTrack - 1 ].uri, true,
+            () => {
+              this.timeout = setTimeout( () => {
+                Meteor.call( "session.nextSong", this.props.curr_session.id );
+              }, (this.props.curr_session.config.duration + 3) * 1000 );
+            } );
+        } );
+    }
+    else {
+      Meteor.call( "session.endGame", this.props.curr_session.id );
+    }
   }
 
-  // getSnapshotBeforeUpdate(prevProps, prevState){
-    
-  // }
+  selectOption( t ) {
+    if ( t === this.state.actualTrack ) {
+      Meteor.call( "session.addPoint", this.props.curr_session.id, Meteor.user() );
+    }
+    else {
+      this.setState( { disabled: true } );
+    }
+  }
 
   render() {
+
+    let leader = (
+      Object.keys( this.props.curr_session.users ).sort( ( a, b ) => {
+        return this.props.curr_session.users[ a ].score - this.props.curr_session.users[ b ].score;
+      } )
+    );
+
     return (
       <div>
-        <BasicInfo session={this.props.session}/>
+        <BasicInfo session={this.props.curr_session} changeState={this.props.changeState}/>
         <div className="gameBoard1">
           <div className="mainBoard">
-            <h1 className="whiteAndCenter">Guess the song</h1>
+            <h1 className="whiteAndCenter">
+              {(this.props.curr_session.endOfGame && this.props.curr_session.currentSong > 1)
+                ? "End of The Game" : "Guess the song"}</h1>
+            <div id="song-options-container">
+              {this.state.options.map( ( e, i ) => {
+                return (
+                  <button key={i} className={"song-option " + ((this.props.curr_session.endOfGame||this.state.disabled) ? "disabled" : "")}
+                    onClick={() => !this.props.curr_session.endOfGame && this.selectOption( e )}>
+                    <h3>{e}</h3>
+                  </button>
+                );
+              } )}
+            </div>
           </div>
           <div className="leaderBoard">
             <h2 className="whiteAndCenter">Leaderboard</h2>
-            {Object.keys(this.props.session.users).map(user=>{
-              return <div className="whiteAndCenter" key={user}>{user}: {this.props.session.users[user].score}</div>;
-            })}
+            {leader.map( ( user, i ) => {
+              return (
+                <div className="whiteAndCenter" key={user}>
+                  {this.props.curr_session.endOfGame && i === 0
+                    ? <h1><i className="fas fa-crown"/>{`${user}:${this.props.curr_session.users[ user ].score}`}</h1>
+                    : <span>({`${user}:${this.props.curr_session.users[ user ].score}`})</span>
+                  }
+                </div>
+              );
+            } )}
           </div>
         </div>
       </div>
@@ -52,6 +148,18 @@ export default class Spotitfy extends Component {
 }
 
 Spotitfy.propTypes = {
-  session : PropTypes.object.isRequired,
-  spotify_tokens : PropTypes.object.isRequired,
+  session: PropTypes.object.isRequired,
+  spotify_tokens: PropTypes.object.isRequired,
+  fullPlaylist: PropTypes.object.isRequired,
+  curr_session: PropTypes.object,
+  changeState: PropTypes.func
 };
+
+
+export default withTracker( ( props ) => {
+  Meteor.subscribe( "sessions" );
+
+  return {
+    curr_session: Sessions.findOne( { "id": props.session.id } ),
+  };
+} )( Spotitfy );

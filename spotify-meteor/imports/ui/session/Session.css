@@ -99,3 +99,16 @@ input[type=number]::-webkit-outer-spin-button {
 .banner-non-display {
     display: none;
 }
+
+#session-info-container > button{
+    background-color: transparent;
+    border: 1px solid transparent;
+    outline: none;
+    color: white;
+    top: 50%;
+    position: absolute;
+    left: -3px;
+    font-size: 2em;
+    transform: translateY(-50%);
+    cursor: pointer;
+}

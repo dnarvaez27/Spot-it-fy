@@ -7,132 +7,133 @@
     cursor: pointer;
 }
 
-#songs-container{
+#songs-container {
 
 }
+
 .playlistInfoContainer {
-    flex:1;
+    flex: 1;
     display: flex;
     flex-direction: column;
-    margin:20px;
+    margin: 20px;
     align-items: center;
 }
 
-.fixFuckup2{
+.fixFuckup2 {
     text-align: center;
 }
 
 img {
-    width:300px;
+    width: 300px;
 }
+
 img.daImage:hover {
     filter: brightness(120%) opacity(60%);
 
 }
+
 .botonsito {
     border: 0;
 }
 
 .cssload-spin-box {
-	position: absolute;
-	margin: auto;
-	left: 0;
-	top: 0;
-	bottom: 0;
-	right: 0;
-	width: 15px;
-	height: 15px;
-	border-radius: 100%;
-	box-shadow: 15px 15px var(--black), -15px 15px var(--white), -15px -15px var(--black), 15px -15px var(--white);
-		-o-box-shadow: 15px 15px var(--black), -15px 15px var(--white), -15px -15px var(--black), 15px -15px var(--white);
-		-ms-box-shadow: 15px 15px var(--black), -15px 15px var(--white), -15px -15px var(--black), 15px -15px var(--white);
-		-webkit-box-shadow: 15px 15px var(--black), -15px 15px var(--white), -15px -15px var(--black), 15px -15px var(--white);
-		-moz-box-shadow: 15px 15px var(--black), -15px 15px var(--white), -15px -15px var(--black), 15px -15px var(--white);
-	animation: cssload-spin ease infinite 3s;
-		-o-animation: cssload-spin ease infinite 3s;
-		-ms-animation: cssload-spin ease infinite 3s;
-		-webkit-animation: cssload-spin ease infinite 3s;
-		-moz-animation: cssload-spin ease infinite 3s;
+    position: absolute;
+    margin: auto;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    width: 15px;
+    height: 15px;
+    border-radius: 100%;
+    box-shadow: 15px 15px var(--black), -15px 15px var(--white), -15px -15px var(--black), 15px -15px var(--white);
+    -o-box-shadow: 15px 15px var(--black), -15px 15px var(--white), -15px -15px var(--black), 15px -15px var(--white);
+    -ms-box-shadow: 15px 15px var(--black), -15px 15px var(--white), -15px -15px var(--black), 15px -15px var(--white);
+    -webkit-box-shadow: 15px 15px var(--black), -15px 15px var(--white), -15px -15px var(--black), 15px -15px var(--white);
+    -moz-box-shadow: 15px 15px var(--black), -15px 15px var(--white), -15px -15px var(--black), 15px -15px var(--white);
+    animation: cssload-spin ease infinite 3s;
+    -o-animation: cssload-spin ease infinite 3s;
+    -ms-animation: cssload-spin ease infinite 3s;
+    -webkit-animation: cssload-spin ease infinite 3s;
+    -moz-animation: cssload-spin ease infinite 3s;
 }
 
-
-
 @keyframes cssload-spin {
-	0%,
-	100% {
-		box-shadow: 15px 15px var(--black), -15px 15px var(--white), -15px -15px var(--black), 15px -15px var(--white);
-	}
-	25% {
-		box-shadow: -15px 15px var(--white), -15px -15px var(--black), 15px -15px var(--white), 15px 15px var(--black);
-	}
-	50% {
-		box-shadow: -15px -15px var(--black), 15px -15px var(--white), 15px 15px var(--black), -15px 15px var(--white);
-	}
-	75% {
-		box-shadow: 15px -15px var(--white), 15px 15px var(--black), -15px 15px var(--white), -15px -15px var(--black);
-	}
+    0%,
+    100% {
+        box-shadow: 15px 15px var(--black), -15px 15px var(--white), -15px -15px var(--black), 15px -15px var(--white);
+    }
+    25% {
+        box-shadow: -15px 15px var(--white), -15px -15px var(--black), 15px -15px var(--white), 15px 15px var(--black);
+    }
+    50% {
+        box-shadow: -15px -15px var(--black), 15px -15px var(--white), 15px 15px var(--black), -15px 15px var(--white);
+    }
+    75% {
+        box-shadow: 15px -15px var(--white), 15px 15px var(--black), -15px 15px var(--white), -15px -15px var(--black);
+    }
 }
 
 @-o-keyframes cssload-spin {
-	0%,
-	100% {
-		box-shadow: 15px 15px var(--black), -15px 15px var(--white), -15px -15px var(--black), 15px -15px var(--white);
-	}
-	25% {
-		box-shadow: -15px 15px var(--white), -15px -15px var(--black), 15px -15px var(--white), 15px 15px var(--black);
-	}
-	50% {
-		box-shadow: -15px -15px var(--black), 15px -15px var(--white), 15px 15px var(--black), -15px 15px var(--white);
-	}
-	75% {
-		box-shadow: 15px -15px var(--white), 15px 15px var(--black), -15px 15px var(--white), -15px -15px var(--black);
-	}
+    0%,
+    100% {
+        box-shadow: 15px 15px var(--black), -15px 15px var(--white), -15px -15px var(--black), 15px -15px var(--white);
+    }
+    25% {
+        box-shadow: -15px 15px var(--white), -15px -15px var(--black), 15px -15px var(--white), 15px 15px var(--black);
+    }
+    50% {
+        box-shadow: -15px -15px var(--black), 15px -15px var(--white), 15px 15px var(--black), -15px 15px var(--white);
+    }
+    75% {
+        box-shadow: 15px -15px var(--white), 15px 15px var(--black), -15px 15px var(--white), -15px -15px var(--black);
+    }
 }
 
 @-ms-keyframes cssload-spin {
-	0%,
-	100% {
-		box-shadow: 15px 15px var(--black), -15px 15px var(--white), -15px -15px var(--black), 15px -15px var(--white);
-	}
-	25% {
-		box-shadow: -15px 15px var(--white), -15px -15px var(--black), 15px -15px var(--white), 15px 15px var(--black);
-	}
-	50% {
-		box-shadow: -15px -15px var(--black), 15px -15px var(--white), 15px 15px var(--black), -15px 15px var(--white);
-	}
-	75% {
-		box-shadow: 15px -15px var(--white), 15px 15px var(--black), -15px 15px var(--white), -15px -15px var(--black);
-	}
+    0%,
+    100% {
+        box-shadow: 15px 15px var(--black), -15px 15px var(--white), -15px -15px var(--black), 15px -15px var(--white);
+    }
+    25% {
+        box-shadow: -15px 15px var(--white), -15px -15px var(--black), 15px -15px var(--white), 15px 15px var(--black);
+    }
+    50% {
+        box-shadow: -15px -15px var(--black), 15px -15px var(--white), 15px 15px var(--black), -15px 15px var(--white);
+    }
+    75% {
+        box-shadow: 15px -15px var(--white), 15px 15px var(--black), -15px 15px var(--white), -15px -15px var(--black);
+    }
 }
 
 @-webkit-keyframes cssload-spin {
-	0%,
-	100% {
-		box-shadow: 15px 15px var(--black), -15px 15px var(--white), -15px -15px var(--black), 15px -15px var(--white);
-	}
-	25% {
-		box-shadow: -15px 15px var(--white), -15px -15px var(--black), 15px -15px var(--white), 15px 15px var(--black);
-	}
-	50% {
-		box-shadow: -15px -15px var(--black), 15px -15px var(--white), 15px 15px var(--black), -15px 15px var(--white);
-	}
-	75% {
-		box-shadow: 15px -15px var(--white), 15px 15px var(--black), -15px 15px var(--white), -15px -15px var(--black);
-	}
+    0%,
+    100% {
+        box-shadow: 15px 15px var(--black), -15px 15px var(--white), -15px -15px var(--black), 15px -15px var(--white);
+    }
+    25% {
+        box-shadow: -15px 15px var(--white), -15px -15px var(--black), 15px -15px var(--white), 15px 15px var(--black);
+    }
+    50% {
+        box-shadow: -15px -15px var(--black), 15px -15px var(--white), 15px 15px var(--black), -15px 15px var(--white);
+    }
+    75% {
+        box-shadow: 15px -15px var(--white), 15px 15px var(--black), -15px 15px var(--white), -15px -15px var(--black);
+    }
 }
 
 @-moz-keyframes cssload-spin {
-	0%,
-	100% {
-		box-shadow: 15px 15px var(--black), -15px 15px var(--white), -15px -15px var(--black), 15px -15px var(--white);
-	}
-	25% {
-		box-shadow: -15px 15px var(--white), -15px -15px var(--black), 15px -15px var(--white), 15px 15px var(--black);
-	}
-	50% {
-		box-shadow: -15px -15px var(--black), 15px -15px var(--white), 15px 15px var(--black), -15px 15px var(--white);
-	}
-	75% {
-		box-shadow: 15px -15px var(--white), 15px 15px var(--black), -15px 15px var(--white), -15px -15px var(--black);
-	}
+    0%,
+    100% {
+        box-shadow: 15px 15px var(--black), -15px 15px var(--white), -15px -15px var(--black), 15px -15px var(--white);
+    }
+    25% {
+        box-shadow: -15px 15px var(--white), -15px -15px var(--black), 15px -15px var(--white), 15px 15px var(--black);
+    }
+    50% {
+        box-shadow: -15px -15px var(--black), 15px -15px var(--white), 15px 15px var(--black), -15px 15px var(--white);
+    }
+    75% {
+        box-shadow: 15px -15px var(--white), 15px 15px var(--black), -15px 15px var(--white), -15px -15px var(--black);
+    }
 }
