@@ -50,6 +50,7 @@ class Session extends Component {
       }, undefined, () => false );
     }
     else {
+      Meteor.call( "user.addRefreshToken", this.props.user._id, spotify.redirect_token );
       this.setState( { spotify_tokens: spotify } );
     }
 
@@ -99,6 +100,9 @@ class Session extends Component {
           if ( !error ) {
             self.setState( { state: 2, sessionID: sessionID } );
             self.props.closeModal();
+          }
+          else{
+            self.props.showErrorModal( error.error );
           }
         } );
     }
@@ -178,5 +182,6 @@ Session.propTypes = {
   sessions: PropTypes.number,
   openModal: PropTypes.func,
   closeModal: PropTypes.func,
+  showErrorModal: PropTypes.func,
   imgBannerRef: PropTypes.object
 };

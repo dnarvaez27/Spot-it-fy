@@ -19,6 +19,7 @@ class App extends Component {
     this.toggle = this.toggle.bind( this );
     this.openModal = this.openModal.bind( this );
     this.closeModal = this.closeModal.bind( this );
+    this.errorModal = this.errorModal.bind( this );
     this.deviceID = undefined;
     this.played = false;
     this.modalRef = React.createRef();
@@ -62,8 +63,12 @@ class App extends Component {
     this.modalRef.current.updateData( data, cbkc, onClose );
   }
 
-  closeModal( ) {
+  closeModal() {
     this.modalRef.current.closeModal();
+  }
+
+  errorModal( err ) {
+    this.modalRef.current.showError( err );
   }
 
   render() {
@@ -89,7 +94,10 @@ class App extends Component {
         {this.props.user
           ?
           <CookiesProvider>
-            <Session imgBannerRef={this.imgBannerRef} openModal={this.openModal} closeModal={this.closeModal}/>
+            <Session imgBannerRef={this.imgBannerRef}
+              openModal={this.openModal}
+              closeModal={this.closeModal}
+              showErrorModal={this.errorModal}/>
           </CookiesProvider>
           :
           content}

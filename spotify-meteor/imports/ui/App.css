@@ -26,7 +26,8 @@ body {
     position: absolute;
     right: 0;
     top: 0;
-    margin: 14px;
+    padding: 14px;
+    z-index: 100;
 }
 
 #login-dropdown-list {
@@ -45,7 +46,7 @@ body {
     border: 1px solid transparent;
 }
 
-#login-buttons .login-button:hover, .accounts-dialog .login-button:hover{
+#login-buttons .login-button:hover, .accounts-dialog .login-button:hover {
     background-color: var(--white);
     border: 1px solid var(--black);
 }
