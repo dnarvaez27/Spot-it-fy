@@ -13,10 +13,45 @@ body {
     background: url("/images/Spot-it-fy.png") no-repeat center;
     background-size: contain;
     height: 100px;
+    top: 20px;
+    position: relative;
 }
 
+#login-name-link,
 #login-sign-in-link {
     color: white;
+}
+
+#accounts-wrapper-container {
+    position: absolute;
+    right: 0;
+    top: 0;
+    margin: 14px;
+}
+
+#login-dropdown-list {
+    top: 30px;
+    right: 10px;
+    left: auto;
+}
+
+#login-buttons .login-close-text {
+    float: right;
+}
+
+#login-buttons .login-button, .accounts-dialog .login-button,
+#login-buttons button.login-button {
+    background-color: var(--green);
+    border: 1px solid transparent;
+}
+
+#login-buttons .login-button:hover, .accounts-dialog .login-button:hover{
+    background-color: var(--white);
+    border: 1px solid var(--black);
+}
+
+.login-button .login-button-form-submit {
+    background-color: var(--green);
 }
 
 #spotitfy-instructions-container > div {
@@ -54,3 +89,8 @@ body {
 #spotitfy-instructions-container {
     padding: 20px;
 }
+
+button {
+    outline: none;
+}
+

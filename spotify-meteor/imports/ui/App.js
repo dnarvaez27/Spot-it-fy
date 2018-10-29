@@ -1,10 +1,13 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import "./App.css";
-import { instanceOf } from "prop-types";
-import { Cookies, withCookies } from "react-cookie";
 import axios from "axios";
 import AccountsUIWrapper from "./AccountsUIWrapper";
-import GameSetup from "./GameSetup/GameSetup";
+import { withTracker } from "meteor/react-meteor-data";
+import { Meteor } from "meteor/meteor";
+import Session from "./session/Session";
+import Modal from "./modal/Modal";
+import { CookiesProvider } from "react-cookie";
 
 export const BACKEND_URL = "http://localhost:3000";
 
@@ -17,59 +20,27 @@ class App extends Component {
     };
     this.deviceID = undefined;
     this.playSongURI = this.playSongURI.bind( this );
-    this.played = false;
     this.toggle = this.toggle.bind( this );
-  }
-
-  componentDidMount() {
-    this.spotify = {
-      access_token: this.props.cookies.get( "spotify_access_token" ),
-      redirect_token: this.props.cookies.get( "spotify_refresh_token" )
-    };
-    if ( !this.spotify.access_token ) {
-      window.open( `${BACKEND_URL}/login`, "_self" );
-    }
-    else {
-      this.setState( { spotify: this.spotify } );
-    }
-    // setTimeout( () => {
-    //   this.playSong();
-    // }, 1000 );
-  }
-
-  playSong() {
-    const player = new window.Spotify.Player( {
-                                                name: "SpotifyGuessIt",
-                                                getOAuthToken: cb => cb( this.spotify.access_token )
-                                              } );
-    player.addListener( "ready", ( { device_id } ) => {
-      console.log( "Ready with Device ID", device_id );
-      this.deviceID = device_id;
-    } );
-
-    // Connect to the player!
-    player.connect()
-          .then( success => {
-            if ( success ) {
-              console.log( "Connected successfully" );
-            }
-          } );
+    this.openModal = this.openModal.bind( this );
+    this.closeModal = this.closeModal.bind( this );
+    this.played = false;
+    this.modalRef = React.createRef();
   }
 
   playSongURI( uri ) {
     axios.put( `https://api.spotify.com/v1/me/player/play?device_id=${this.deviceID}`,
-               {
-                 uris: [ uri ],
-                 position_ms: 0 // Optional, start point
-               }, {
-                 headers: {
-                   "Content-Type": "application/json",
-                   "Authorization": `Bearer ${this.spotify.access_token}`
-                 }
-               } )
-         .then( () => {
-           this.played = true;
-         } );
+      {
+        uris: [ uri ],
+        position_ms: 0 // Optional, start point
+      }, {
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${this.spotify.access_token}`
+        }
+      } )
+      .then( () => {
+        this.played = true;
+      } );
   }
 
   static getPlaylist() {
@@ -89,32 +60,53 @@ class App extends Component {
     } );
   }
 
+  openModal( data, cbkc ) {
+    this.modalRef.current.updateData( data, cbkc );
+  }
+
+  closeModal( ) {
+    this.modalRef.current.closeModal();
+  }
+
   render() {
+
+    let content = (
+      <div id="spotitfy-instructions-container">
+        <div>
+          <h1>Select a playlist</h1>
+        </div>
+        <div>
+          <h1>Play with your friends</h1>
+        </div>
+        <div>
+          <h1>Guess the song</h1>
+        </div>
+      </div>
+    );
+
     return (
-      // <div>
-      //   <AccountsUIWrapper/>
-      //   <div id="spotitfy-img"/>
-      //   <div id="spotitfy-instructions-container">
-      //     <div>
-      //       <h1>Select a playlist</h1>
-      //     </div>
-      //     <div>
-      //       <h1>Play with your friends</h1>
-      //     </div>
-      //     <div>
-      //       <h1>Guess the song</h1>
-      //     </div>
-      //   </div>
-      // </div>
       <div>
-        <GameSetup spotify={this.state.spotify}/>
+        <AccountsUIWrapper/>
+        <div id="spotitfy-img"/>
+        {this.props.user
+          ?
+          <CookiesProvider>
+            <Session openModal={this.openModal} closeModal={this.closeModal}/>
+          </CookiesProvider>
+          :
+          content}
+        <Modal ref={this.modalRef}/>
       </div>
     );
   }
 }
 
 App.propTypes = {
-  cookies: instanceOf( Cookies ).isRequired
+  user: PropTypes.object
 };
 
-export default withCookies( App );
+export default withTracker( () => {
+  return {
+    user: Meteor.user()
+  };
+} )( App );

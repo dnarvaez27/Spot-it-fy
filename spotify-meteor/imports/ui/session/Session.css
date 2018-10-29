@@ -1,0 +1,89 @@
+#session-choice-container {
+    position: absolute;
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    grid-gap: 10px;
+    margin: 10px;
+    width: calc(100% - 40px);
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+html, body, #render-target, #render-target > div {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+#session-choice-container > div {
+    text-align: center;
+    padding: 20px;
+    background-color: var(--white);
+    box-shadow: 0 1px 10px -2px black;
+    cursor: pointer;
+    border: 2px solid var(--white);
+    border-radius: 100px;
+}
+
+#session-choice-container > div:hover {
+    background-color: var(--black);
+    color: var(--white);
+}
+
+#session-join-content > input {
+    width: calc(100% - 20px);
+    border: 1px solid transparent;
+    border-bottom: 1px solid var(--green);
+    padding: 10px;
+    outline: none;
+    text-align: center;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+#session-join-ok-content > button {
+    background-color: var(--green);
+    border: 2px solid transparent;
+    border-radius: 50%;
+    padding: 8px 10px;
+    color: white;
+    float: right;
+    margin-top: 5px;
+    cursor: pointer;
+}
+
+#session-join-ok-content > button:hover {
+    background-color: white;
+    border: 2px solid var(--green);
+    color: var(--green);
+}
+
+#auth-modal-body-container {
+    padding: 5px 10px 40px;
+    text-align: center;
+}
+
+#auth-modal-foot-container {
+    text-align: center;
+}
+
+#auth-modal-foot-container > button {
+    background-color: var(--green);
+    border: 2px solid transparent;
+    padding: 5px 10px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: bold;
+    color: white;
+}
+
+#auth-modal-foot-container > button:hover {
+    background-color: white;
+    border: 2px solid var(--green);
+    color: var(--green);
+}

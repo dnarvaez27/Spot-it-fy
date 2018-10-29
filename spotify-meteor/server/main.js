@@ -1,2 +1,2 @@
 // Add Collections
-import "../imports/api/playlists.js";
+import "../imports/api/sessions";

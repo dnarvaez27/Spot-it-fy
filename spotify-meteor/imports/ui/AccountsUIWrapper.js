@@ -18,6 +18,6 @@ export default class AccountsUIWrapper extends React.Component{
   }
 
   render(){
-    return <span ref={(ref) => this.container = ref}/>;
+    return <span id="accounts-wrapper-container" ref={(ref) => this.container = ref}/>;
   }
 }

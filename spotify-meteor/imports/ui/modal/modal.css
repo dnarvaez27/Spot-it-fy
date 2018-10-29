@@ -1,0 +1,50 @@
+#spotitfy-modal {
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.5);
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+}
+
+#spotitfy-modal > div {
+    position: absolute;
+    max-height: 50vh;
+    max-width: 50vw;
+    background-color: white;
+    transform: translate(-50%, -50%);
+    left: 50%;
+    top: 50%;
+    border-radius: 20px;
+    box-shadow: 0 1px 20px -5px black;
+    padding: 15px;
+}
+
+#spotitfy-modal-header {
+    padding-right: 70px;
+}
+
+#spotitfy-modal-header > button {
+    border: 2px solid transparent;
+    outline: none;
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    font-size: 1em;
+    background-color: firebrick;
+    color: white;
+    border-radius: 50%;
+    padding: 5px 11px;
+    cursor: pointer;
+    font-weight: 900;
+}
+
+#spotitfy-modal-header > button:hover {
+    border: 2px solid firebrick;
+    background-color: white;
+    color: firebrick;
+}
+
+.spotitfy-modal-hidden {
+    display: none;
+}
