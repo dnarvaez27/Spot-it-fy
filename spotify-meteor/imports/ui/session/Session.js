@@ -48,7 +48,7 @@ class Session extends Component {
         )}, undefined, () => false);
     }
     else {
-      this.setState( { spotify: spotify } );
+      this.setState( { spotify_tokens: spotify } );
     }
 
     setTimeout( () => {
@@ -147,7 +147,7 @@ class Session extends Component {
     }
     else {
       status = (
-        <Game status={this.state.state} sessionID={this.state.sessionID}/>
+        <Game spotify_tokens={this.state.spotify_tokens} status={this.state.state} sessionID={this.state.sessionID}/>
       );
     }
 
