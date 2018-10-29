@@ -1,0 +1,19 @@
+.whiteAndCenter {
+  color: var(--white);
+  text-align: center;
+}
+
+.gameBoard1 {
+  display: flex;
+  /* flex-direction: row; */
+  justify-content: space-between;
+}
+
+.leaderBoard {
+  flex: initial;
+  width:300px;
+}
+
+.mainBoard {
+  flex:1;
+}

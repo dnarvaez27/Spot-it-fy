@@ -34,7 +34,7 @@ class Playlist extends Component {
       toRender = (
         <div className="playlistInfoContainer">
         
-          <img onClick={()=>this.props.selectPlaylist(this.props.playlist.ID)} alt="playlist-cover" src={this.state.playlist.images[ 0 ].url}/>
+          <img className="daImage" onClick={()=>this.props.selectPlaylist(this.props.playlist.ID)} alt="playlist-cover" src={this.state.playlist.images[ 0 ].url}/>
           
           <h2 className="fixFuckup2">{this.state.playlist.name}</h2>
 

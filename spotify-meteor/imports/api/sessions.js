@@ -22,7 +22,8 @@ Meteor.methods( {
       createdAt: new Date(),
       users: m_user,
       config: {},
-      gameStart:false
+      gameStart:false,
+      currentSong:0
     } );
   },
   "session.join"( id, user ) {

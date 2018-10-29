@@ -25,7 +25,7 @@
 img {
     width:300px;
 }
-img:hover {
+img.daImage:hover {
     filter: brightness(120%) opacity(60%);
 
 }

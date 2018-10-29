@@ -6,6 +6,8 @@ import { Sessions } from "../../api/sessions";
 import "./Game.css";
 import GameSetup from "../GameSetup/GameSetup";
 import Players from "../Players/Players";
+import BasicInfo from "../BasicInfo/BasicInfo";
+import Spotitfy from "../Spotitfy/Spotitfy";
 
 class Game extends Component {
 
@@ -31,46 +33,7 @@ class Game extends Component {
     }
 
     let pregame = (<div>
-      <div id="session-info-container">
-        {this.props.session.config.duration===undefined?
-          <div id="session-img"/>
-          :
-          <img className="bannerImg" src={this.props.session.config.imageUrl} alt="playlistImage"/>
-        }
-        <div id="session-info-text">
-          <div>SessionID: {this.props.session.id}</div>
-          {this.props.session.config.duration===undefined?
-            <h1>-</h1>
-            :
-            <h1>{this.props.session.config.playlist.name}</h1>
-          }
-          
-
-          <span>
-            <span className="session-info-label">Session created by: </span>
-            <b>
-              {Object.keys(this.props.session.users)[0]}
-            </b>
-          </span>
-
-          <span>
-            <span className="session-info-label">Songs: </span>
-            <b>
-              {this.props.session.config.playlist
-                ? this.props.session.config.playlist.tracks.length
-                : <i className="fas fa-comments"/>}
-            </b>
-          </span>
-
-          <span>
-            <span className="session-info-label">Players: </span>
-            <b>
-              {Object.keys( this.props.session.users ).length}
-            </b>
-          </span>
-
-        </div>
-      </div>
+      <BasicInfo session={this.props.session}/>
       {Meteor.user().username==Object.keys(this.props.session.users)[0]?
         this.props.session.config.duration===undefined?
           ""
@@ -85,7 +48,10 @@ class Game extends Component {
 
     return (
       <div>
-        {this.props.session.gameStart?<p>Game Started.</p>:pregame}
+        {this.props.session.gameStart?
+          <Spotitfy session={this.props.session} spotify_tokens={this.props.spotify_tokens}/>
+          :
+          pregame}
       </div>
     );
   }
