@@ -68,6 +68,14 @@ input[type=number]::-webkit-outer-spin-button {
     text-align: center;
 }
 
+#auth-modal-body-container > h2 {
+    margin: 10px;
+}
+
+#auth-modal-body-container > b {
+    display: block;
+}
+
 #auth-modal-foot-container {
     text-align: center;
 }
@@ -86,4 +94,8 @@ input[type=number]::-webkit-outer-spin-button {
     background-color: white;
     border: 2px solid var(--green);
     color: var(--green);
+}
+
+.banner-non-display{
+    display: none;
 }

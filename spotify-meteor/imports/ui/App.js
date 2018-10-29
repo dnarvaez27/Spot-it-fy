@@ -15,16 +15,14 @@ class App extends Component {
 
   constructor( props ) {
     super( props );
-    this.state = {
-      spotify: {}
-    };
-    this.deviceID = undefined;
     this.playSongURI = this.playSongURI.bind( this );
     this.toggle = this.toggle.bind( this );
     this.openModal = this.openModal.bind( this );
     this.closeModal = this.closeModal.bind( this );
+    this.deviceID = undefined;
     this.played = false;
     this.modalRef = React.createRef();
+    this.imgBannerRef = React.createRef();
   }
 
   playSongURI( uri ) {
@@ -60,8 +58,8 @@ class App extends Component {
     } );
   }
 
-  openModal( data, cbkc ) {
-    this.modalRef.current.updateData( data, cbkc );
+  openModal( data, cbkc, onClose ) {
+    this.modalRef.current.updateData( data, cbkc, onClose );
   }
 
   closeModal( ) {
@@ -87,11 +85,11 @@ class App extends Component {
     return (
       <div>
         <AccountsUIWrapper/>
-        <div id="spotitfy-img"/>
+        <div id="spotitfy-img" ref={this.imgBannerRef}/>
         {this.props.user
           ?
           <CookiesProvider>
-            <Session openModal={this.openModal} closeModal={this.closeModal}/>
+            <Session imgBannerRef={this.imgBannerRef} openModal={this.openModal} closeModal={this.closeModal}/>
           </CookiesProvider>
           :
           content}

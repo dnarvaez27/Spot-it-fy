@@ -28,6 +28,11 @@ Meteor.methods( {
     check( id, Number );
     check( user, Object );
 
+    let session = Sessions.findOne({id});
+    if(!session){
+      throw new Meteor.Error(`Session ${id} does not exist`);
+    }
+
     const temp = {};
     temp[ "users." + user.username ] = { score: 0 };
     Sessions.update(

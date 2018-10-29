@@ -10,7 +10,8 @@ class Modal extends Component {
       body: undefined,
       foot: undefined,
       open: false,
-      onClose: undefined
+      onClose: undefined,
+      error: undefined
     };
     this.closeModal = this.closeModal.bind( this );
   }
@@ -25,7 +26,12 @@ class Modal extends Component {
     }, () => cbck && cbck() );
   }
 
+  showError(err){
+    this.setState({error: err});
+  }
+
   closeModal(){
+    console.log(this.state.onClose , this.state.onClose && !this.state.onClose());
     if ( !(this.state.onClose && !this.state.onClose()) ) {
       this.setState( {
         title: undefined,
@@ -42,6 +48,8 @@ class Modal extends Component {
       <div id="spotitfy-modal" className={this.state.open ? "" : "spotitfy-modal-hidden"}>
         <div>
           <div id="spotitfy-modal-header">
+            <div>
+            </div>
             <h1>{this.state.title}</h1>
             <button onClick={this.closeModal}>&times;</button>
           </div>

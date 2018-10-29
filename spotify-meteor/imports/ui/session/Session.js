@@ -6,7 +6,7 @@ import { Sessions } from "../../api/sessions";
 import "./Session.css";
 import Game from "../game/Game";
 import { Cookies, withCookies } from "react-cookie";
-import {BACKEND_URL} from "../App";
+import { BACKEND_URL } from "../App";
 
 class Session extends Component {
 
@@ -29,15 +29,16 @@ class Session extends Component {
 
     if ( !spotify.access_token ) {
 
-      const goToAuth = ()=>{
+      const goToAuth = () => {
         window.open( `${BACKEND_URL}/login`, "_self" );
       };
 
-      this.props.openModal({
-        title: "Authorize App to Use Spotify",
+      this.props.openModal( {
+        title: "Authorize us to use Spotify",
         body: (
           <div id="auth-modal-body-container">
-            <h2>In order to use this app you must authorize it. </h2>
+            <h2>In order to use this app you must authorize it.</h2>
+            <b>You must have a Premium account in Spotify</b>
             <span>You will be redirected to Spotify</span>
           </div>
         ),
@@ -45,7 +46,8 @@ class Session extends Component {
           <div id="auth-modal-foot-container">
             <button onClick={goToAuth}>Authorize</button>
           </div>
-        )}, undefined, () => false);
+        )
+      }, undefined, () => false );
     }
     else {
       this.setState( { spotify_tokens: spotify } );
@@ -79,7 +81,6 @@ class Session extends Component {
   createSession() {
     let curSession = this.props.sessions;
     curSession = isNaN( curSession ) ? 1 : curSession + 1;
-    console.log( curSession );
     Meteor.call( "session.create", curSession, this.props.user,
       () => {
         this.setState( { state: 1, sessionID: curSession } );
@@ -94,9 +95,11 @@ class Session extends Component {
     function join() {
       let sessionID = parseInt( inputValue );
       Meteor.call( "session.join", sessionID, self.props.user,
-        () => {
-          self.setState( { state: 2, sessionID: sessionID } );
-          self.props.closeModal();
+        ( error ) => {
+          if ( !error ) {
+            self.setState( { state: 2, sessionID: sessionID } );
+            self.props.closeModal();
+          }
         } );
     }
 
@@ -146,6 +149,7 @@ class Session extends Component {
       );
     }
     else {
+      this.props.imgBannerRef.current.classList.add( "banner-non-display" );
       status = (
         <Game spotify_tokens={this.state.spotify_tokens} status={this.state.state} sessionID={this.state.sessionID}/>
       );
@@ -173,5 +177,6 @@ Session.propTypes = {
   user: PropTypes.object,
   sessions: PropTypes.number,
   openModal: PropTypes.func,
-  closeModal: PropTypes.func
+  closeModal: PropTypes.func,
+  imgBannerRef: PropTypes.object
 };
