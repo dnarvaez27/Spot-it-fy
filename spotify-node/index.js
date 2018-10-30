@@ -20,8 +20,8 @@ app.use( express.static( __dirname + "/public" ) )
 
 const PORT = 3000;
 const TOKEN_URL = "https://accounts.spotify.com/api/token";
-const CLIENT_ID = "";
-const CLIENT_SECRET = "";
+const CLIENT_ID = "fd95c5089ee245fb9d1c4d5742ccfc2f";
+const CLIENT_SECRET = "04e2e5e2b38d4335b4111881702c57a5";
 const REDIRECT_URL = "http://localhost:3000/callback";
 const cookie_keys = {
   stateKey: "spotify_auth_state",

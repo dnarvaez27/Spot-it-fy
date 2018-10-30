@@ -107,7 +107,7 @@ input[type=number]::-webkit-outer-spin-button {
     color: white;
     top: 50%;
     position: absolute;
-    left: -3px;
+    left: 10px;
     font-size: 2em;
     transform: translateY(-50%);
     cursor: pointer;
