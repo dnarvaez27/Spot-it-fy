@@ -26,7 +26,7 @@ class Playlist extends Component {
   render() {
 
     let toRender = (
-      <div className="cssload-spin-box"></div>
+      <div className="cssload-spin-box"/>
     );
 
     if ( this.state.playlist ) {

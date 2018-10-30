@@ -32,7 +32,7 @@ export default class BasicInfo extends Component {
             <span className="session-info-label">Songs: </span>
             <b>
               {this.props.session.config.playlist
-                ? this.props.session.config.playlist.tracks.length
+                ? (`${!this.props.session.endOfGame ? this.props.session.currentSong+1 + " of " : ""} ${this.props.session.config.playlist.tracks.length}`)
                 : <i className="fas fa-comments"/>}
             </b>
           </span>

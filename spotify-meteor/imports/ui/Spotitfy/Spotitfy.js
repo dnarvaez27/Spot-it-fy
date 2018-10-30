@@ -25,10 +25,12 @@ class Spotitfy extends Component {
       currentTrack: props.curr_session.currentSong,
       options: [],
       actualTrack: undefined,
-      disabled: false
+      disabled: false,
+      loading: false
     };
     this.selectOption = this.selectOption.bind( this );
     this.timeout = undefined;
+    this.stateTimeout = undefined;
   }
 
   componentDidMount() {
@@ -39,6 +41,10 @@ class Spotitfy extends Component {
     if ( prevProps.curr_session.currentSong !== this.props.curr_session.currentSong ) {
       this.next();
     }
+  }
+
+  componentWillUnmount(){
+    this.timeout && clearTimeout(this.timeout);
   }
 
   playSongURI( uri, toggle = true, cbck ) {
@@ -76,19 +82,24 @@ class Spotitfy extends Component {
       opts.push( daTrack );
       opts = shuffle( opts );
 
-      this.setState( { currentTrack: this.state.currentTrack + 1, options: opts, actualTrack: daTrack, disabled: false },
-        () => {
-          this.timeout && clearTimeout(this.timeout);
-          this.playSongURI( this.props.curr_session.config.playlist.tracks[ this.state.currentTrack - 1 ].uri, true,
-            () => {
-              this.timeout = setTimeout( () => {
-                Meteor.call( "session.nextSong", this.props.curr_session.id );
-              }, (this.props.curr_session.config.duration + 3) * 1000 );
-            } );
-        } );
+      this.setState({loading:true});
+      this.stateTimeout && clearTimeout(this.stateTimeout);
+      this.stateTimeout = setTimeout(() =>{
+        this.setState( { currentTrack: this.state.currentTrack + 1, options: opts, actualTrack: daTrack, disabled: false, loading: false },
+          () => {
+            this.timeout && clearTimeout(this.timeout);
+            this.playSongURI( this.props.curr_session.config.playlist.tracks[ this.state.currentTrack - 1 ].uri, true,
+              () => {
+                this.timeout = setTimeout( () => {
+                  Meteor.call( "session.nextSong", this.props.curr_session.id );
+                }, (this.props.curr_session.config.duration + 3) * 1000 );
+              } );
+          } );
+      },1500);
     }
     else {
       Meteor.call( "session.endGame", this.props.curr_session.id );
+      this.playSongURI(undefined, false);
     }
   }
 
@@ -105,7 +116,7 @@ class Spotitfy extends Component {
 
     let leader = (
       Object.keys( this.props.curr_session.users ).sort( ( a, b ) => {
-        return this.props.curr_session.users[ a ].score - this.props.curr_session.users[ b ].score;
+        return this.props.curr_session.users[ b ].score - this.props.curr_session.users[ a ].score;
       } )
     );
 
@@ -117,16 +128,19 @@ class Spotitfy extends Component {
             <h1 className="whiteAndCenter">
               {(this.props.curr_session.endOfGame && this.props.curr_session.currentSong > 1)
                 ? "End of The Game" : "Guess the song"}</h1>
-            <div id="song-options-container">
-              {this.state.options.map( ( e, i ) => {
-                return (
-                  <button key={i} className={"song-option " + ((this.props.curr_session.endOfGame||this.state.disabled) ? "disabled" : "")}
+            {this.state.loading ? <div className="cssload-spin-box"/>:
+              <div id="song-options-container">
+                {this.state.options.map( ( e, i ) => {
+                  return (
+                    <button key={i} className={"song-option " + ((this.props.curr_session.endOfGame||this.state.disabled) ? "disabled " : " ")
+                      + (this.state.disabled ?( e === this.state.actualTrack)? "song-item-ok" : "song-item-wrong": "")}
                     onClick={() => !this.props.curr_session.endOfGame && this.selectOption( e )}>
-                    <h3>{e}</h3>
-                  </button>
-                );
-              } )}
-            </div>
+                      <h3>{e}</h3>
+                    </button>
+                  );
+                } )}
+              </div>
+            }
           </div>
           <div className="leaderBoard">
             <h2 className="whiteAndCenter">Leaderboard</h2>

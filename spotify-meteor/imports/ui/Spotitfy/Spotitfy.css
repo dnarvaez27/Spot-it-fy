@@ -49,3 +49,13 @@
 .whiteAndCenter .fa-crown {
     color: rgb(228, 213, 4);
 }
+
+.song-item-ok{
+    background-color: var(--green);
+    color:white;
+}
+
+.song-item-wrong{
+    background-color: firebrick;
+    color:white;
+}

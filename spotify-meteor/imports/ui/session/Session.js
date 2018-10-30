@@ -75,7 +75,7 @@ class Session extends Component {
 
   initPlayer() {
     const player = new window.Spotify.Player( {
-      name: "SpotifyGuessIt",
+      name: "Spot-it-fy",
       getOAuthToken: cb => cb( this.state.spotify_tokens.access_token )
     } );
 
