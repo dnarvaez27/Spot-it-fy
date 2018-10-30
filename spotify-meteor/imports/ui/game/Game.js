@@ -8,6 +8,9 @@ import GameSetup from "../GameSetup/GameSetup";
 import Players from "../Players/Players";
 import BasicInfo from "../BasicInfo/BasicInfo";
 import Spotitfy from "../Spotitfy/Spotitfy";
+import axios from "axios";
+
+const fields = "name,description,images,tracks.items(track(album,artists,duration_ms,id,name,uri))";
 
 class Game extends Component {
 
@@ -27,7 +30,20 @@ class Game extends Component {
     Meteor.call( "session.startGame", this.props.sessionID );
   }
 
+  loadPlaylist(){
+    const url_info = `https://api.spotify.com/v1/playlists/${this.props.session.config.playlist.id}?fields=${fields}`;
+    axios.get( url_info, { headers: { "Authorization": `Bearer ${this.props.spotify_tokens.access_token}` } } )
+      .then( response => {
+        this.setState( { playlistData: response.data } );
+      } );
+  }
+
   render() {
+
+    if(this.props.session.config.playlist && !this.state.playlistData){
+      this.loadPlaylist();
+    }
+
     // console.log("sessionID: ",this.props.sessionID);
     let toRender = <Players session={this.props.session}/>;
     if ( this.state.state === 1 ) {
