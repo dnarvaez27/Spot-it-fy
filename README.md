@@ -2,6 +2,8 @@
 
 A multiplayer game where the players have to guess the title of the song based on its audio. The player that guesses the song in the shortest amount of time wins a point. The player who has the most points at the end of the playlist, wins. 
 
+//Juan Useche: Deberian de agregar en el ReadMe un link a donde esta desplegada la aplicación.
+
 ![Screenshot](https://github.com/dnarvaez27/Spot-it-fy/raw/master/screenshot.png)
 
 ---
