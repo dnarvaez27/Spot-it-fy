@@ -17,6 +17,9 @@ class AccountsUIWrapper extends React.Component {
     this.openChangePassword = this.openChangePassword.bind(this);
     this.logout=this.logout.bind(this);
     this.register = this.register.bind(this);
+    this.validateInput = this.validateInput.bind(this);
+
+    this.usernamesignupinput = React.createRef();
   }
 
   login(username, pass){
@@ -37,6 +40,7 @@ class AccountsUIWrapper extends React.Component {
   }
 
   register(username, pass, confirmPass){
+    username = username.current.value.replace(/\W/g, '');
     if(!username || !pass || !confirmPass){
       this.props.showErrorModal("Please provide all the fields")
     }
@@ -78,13 +82,31 @@ class AccountsUIWrapper extends React.Component {
     } );
   }
 
+  validateInput(e){
+    if (!e.key.match(/[a-zA-Z0-9]/) || e.keyCode === 186) {
+      e.preventDefault();
+    }
+
+    let a = this.usernamesignupinput.current.value.replace(/\W/g, '');
+    if(this.usernamesignupinput.current.value !== a) {
+      this.usernamesignupinput.current.value = a;
+      e.preventDefault();
+    }
+  }
+
   openRegister(){
     let username, pass, passCheck;
     this.props.openModal( {
       title: "Signup",
       body: (
         <div id="login-conatiner">
-          <input type="text" placeholder="Username" onChange={e => username = e.target.value} onKeyPress={(e) => this.execOnEnter(e, this.register, [username, pass, passCheck])}/>
+          <input 
+            type="text" 
+            placeholder="Username" 
+            onChange={e => username = e.target.value} 
+            onKeyPress={(e) => this.execOnEnter(e, this.register, [username, pass, passCheck])}
+            onKeyDown={this.validateInput}
+            ref={this.usernamesignupinput}/>
           <input type="password" placeholder="Password" onChange={e => pass = e.target.value} onKeyPress={(e) => this.execOnEnter(e, this.register, [username, pass, passCheck])}/>
           <input type="password" placeholder="Confirm Password" onChange={e => passCheck = e.target.value} onKeyPress={(e) => this.execOnEnter(e, this.register, [username, pass, passCheck])}/>
         </div>
