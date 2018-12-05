@@ -20,6 +20,7 @@ class AccountsUIWrapper extends React.Component {
     this.validateInput = this.validateInput.bind(this);
 
     this.usernamesignupinput = React.createRef();
+    this.usernamelogininput = React.createRef();
   }
 
   login(username, pass){
@@ -69,7 +70,13 @@ class AccountsUIWrapper extends React.Component {
       title: "Login",
       body: (
         <div id="login-conatiner">
-          <input type="text" placeholder="Username" onChange={e => username = e.target.value} onKeyPress={(e) => this.execOnEnter(e, this.login, [username, pass])}/>
+          <input 
+            type="text" 
+            placeholder="Username" 
+            onChange={e => username = e.target.value} 
+            onKeyPress={(e) => this.execOnEnter(e, this.login, [username, pass])}
+            onKeyDown={e => this.validateInput(e,this.usernamelogininput)}
+            ref={this.usernamelogininput}/>
           <input type="password" placeholder="Password" onChange={e => pass = e.target.value} onKeyPress={(e) => this.execOnEnter(e, this.login, [username, pass])}/>
         </div>
       ),
@@ -82,14 +89,14 @@ class AccountsUIWrapper extends React.Component {
     } );
   }
 
-  validateInput(e){
+  validateInput(e, inputRef){
     if (!e.key.match(/[a-zA-Z0-9]/) || e.keyCode === 186) {
       e.preventDefault();
     }
 
-    let a = this.usernamesignupinput.current.value.replace(/\W/g, '');
-    if(this.usernamesignupinput.current.value !== a) {
-      this.usernamesignupinput.current.value = a;
+    let a = inputRef.current.value.replace(/\W/g, '');
+    if(inputRef.current.value !== a) {
+      inputRef.current.value = a;
       e.preventDefault();
     }
   }
@@ -105,7 +112,7 @@ class AccountsUIWrapper extends React.Component {
             placeholder="Username" 
             onChange={e => username = e.target.value} 
             onKeyPress={(e) => this.execOnEnter(e, this.register, [username, pass, passCheck])}
-            onKeyDown={this.validateInput}
+            onKeyDown={e => this.validateInput(e, this.usernamesignupinput)}
             ref={this.usernamesignupinput}/>
           <input type="password" placeholder="Password" onChange={e => pass = e.target.value} onKeyPress={(e) => this.execOnEnter(e, this.register, [username, pass, passCheck])}/>
           <input type="password" placeholder="Confirm Password" onChange={e => passCheck = e.target.value} onKeyPress={(e) => this.execOnEnter(e, this.register, [username, pass, passCheck])}/>
