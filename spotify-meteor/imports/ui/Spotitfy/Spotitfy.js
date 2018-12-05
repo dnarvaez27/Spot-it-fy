@@ -66,26 +66,41 @@ class Spotitfy extends Component {
   }
 
   next() {
-    if ( this.state.currentTrack < this.props.curr_session.config.playlist.tracks.length ) {
-      // Se que se puede mejorar, pero por tiempo...
-      let opts = randomSamples( this.props.fullPlaylist.tracks.items, 4 );
-      opts = opts.map( t => {
-        let track = t.track.name;
-        let artists = t.track.artists.map( a => a.name ).join( ", " );
-        return `${track} - ${artists}`;
-      } );
 
+    function songToString(t){
+      let track = t.track.name;
+      let artists = t.track.artists.map( a => a.name ).join( ", " );
+      return `${track} - ${artists}`;
+    }
+
+    if ( this.state.currentTrack < this.props.curr_session.config.playlist.tracks.length ) {
+
+      // Get correct song
+      let origIndex = -1;
       const orig = this.props.fullPlaylist.tracks.items.filter( i => {
-        return i.track.uri === this.props.curr_session.config.playlist.tracks[ this.state.currentTrack ].uri;
+        if(i.track.uri === this.props.curr_session.config.playlist.tracks[ this.state.currentTrack ].uri){
+          origIndex = i;
+          return true;
+        }
+        return false;
       } )[ 0 ];
-      let daTrack = `${orig.track.name} - ${orig.track.artists.map( a => a.name ).join( ", " )}`;
-      opts.push( daTrack );
+
+      let tempArray = JSON.parse(JSON.stringify(this.props.fullPlaylist.tracks.items));
+      // Remove correct song from other possibilities
+      tempArray.splice(origIndex, 1);
+      // Get 4 random songs from array that does not contain correct song
+      let opts = randomSamples( tempArray, 4 );
+      // Push correct song
+      opts.push( orig );
+      // Map them to String
+      opts = opts.map( songToString );
+      // Shuffle the options
       opts = shuffle( opts );
 
-      this.setState({loading:true});
-      this.stateTimeout && clearTimeout(this.stateTimeout);
+      this.setState( { loading: true } );
+      this.stateTimeout && clearTimeout( this.stateTimeout );
       this.stateTimeout = setTimeout(() =>{
-        this.setState( { currentTrack: this.state.currentTrack + 1, options: opts, actualTrack: daTrack, disabled: false, loading: false },
+        this.setState( { currentTrack: this.state.currentTrack + 1, options: opts, actualTrack: songToString(orig), disabled: false, loading: false },
           () => {
             this.timeout && clearTimeout(this.timeout);
             this.playSongURI( this.props.curr_session.config.playlist.tracks[ this.state.currentTrack - 1 ].uri, true,
