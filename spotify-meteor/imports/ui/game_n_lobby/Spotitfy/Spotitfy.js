@@ -45,6 +45,7 @@ class Spotitfy extends Component {
 
   componentWillUnmount(){
     this.timeout && clearTimeout(this.timeout);
+    this.playSongURI(undefined, false);
   }
 
   playSongURI( uri, toggle = true, cbck ) {
