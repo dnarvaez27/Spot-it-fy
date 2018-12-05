@@ -23,7 +23,8 @@ class Modal extends Component {
       body: data.body,
       foot: data.foot,
       open: true,
-      onClose: onClose
+      onClose: onClose,
+      error: undefined
     }, () => cbck && cbck() );
   }
 

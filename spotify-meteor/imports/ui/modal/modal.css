@@ -24,6 +24,11 @@
     padding-right: 70px;
 }
 
+#spotitfy-modal-header > h1{
+    margin: 5px;
+    margin-bottom: 20px;
+}
+
 #spotitfy-modal-header > button {
     border: 2px solid transparent;
     outline: none;

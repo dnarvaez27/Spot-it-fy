@@ -12,21 +12,21 @@ body {
 #spotitfy-img {
     background: url("/images/Spot-it-fy.png") no-repeat center;
     background-size: contain;
-    height: 100px;
-    top: 20px;
-    position: relative;
+    height: 50px;
+    z-index: 2;
 }
 
 #login-name-link,
 #login-sign-in-link {
     color: white;
+    text-decoration: none !important;
 }
 
 #accounts-wrapper-container {
     position: absolute;
     right: 0;
     top: 0;
-    padding: 14px;
+    padding: 35px;
     z-index: 100;
 }
 
@@ -40,14 +40,16 @@ body {
     float: right;
 }
 
-#login-buttons .login-button, .accounts-dialog .login-button,
+#login-buttons .login-button,
+.accounts-dialog .login-button,
 #login-buttons button.login-button {
     background-color: var(--green);
     border: 1px solid transparent;
     font-weight: bold;
 }
 
-#login-buttons .login-button:hover, .accounts-dialog .login-button:hover {
+#login-buttons .login-button:hover,
+.accounts-dialog .login-button:hover {
     background-color: var(--white);
     color: var(--green);
     border: 1px solid var(--green);
@@ -57,7 +59,57 @@ body {
     background-color: var(--green);
 }
 
-#spotitfy-instructions-container > div {
+#spotitfy-instructions-container {
+    background: linear-gradient(#F037A5 -60%, #FAE62D 140%);
+    margin-top: -90px;
+    height: calc(100% - 0px);
+    position: relative;
+}
+
+#spotitfy-img-container {
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.6);
+    position: relative;
+    z-index: 1;
+    min-height: 50px;
+}
+
+#spotitfy-instructions-container>div {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, calc(-50% + 45px));
+    color: white;
+    text-align: center;
+}
+
+#spotitfy-instructions-container>div>button {
+    background-color: var(--green);
+    color: white;
+    padding: 10px 30px;
+    border-radius: 50px;
+    border: 1px solid transparent;
+    margin: 15px;
+    font-weight: bold;
+    font-size: 1em;
+    cursor: pointer;
+}
+
+#spotitfy-instructions-container>div>button:hover {
+    background-color: #1ED760;
+}
+
+#spotitfy-instructions-container>div>h1 {
+    margin: 20px;
+    font-size: 3.5em;
+}
+
+#spotitfy-instructions-container>div>span {
+    font-size: 1.4em;
+    display: block;
+}
+
+/* #spotitfy-instructions-container > div {
     padding: 55px 50px;
     border-radius: 20px;
     box-shadow: 0 0 12px -3px black;
@@ -90,9 +142,87 @@ body {
 
 #spotitfy-instructions-container {
     padding: 20px;
-}
+} */
 
 button {
     outline: none;
 }
 
+#accounts-container {
+    position: absolute;
+    z-index: 10;
+    right: 0;
+    padding: 25px;
+}
+
+#accounts-container>div>button {
+    background-color: transparent;
+    border: 1px solid transparent;
+    cursor: pointer;
+    color: white;
+    padding: 10px;
+}
+
+#accounts-container>div>button:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+}
+
+#login-conatiner>input {
+    padding: 5px;
+    display: block;
+    border: 1px solid darkgray;
+    border-radius: 10px;
+    margin: 10px 0;
+    min-width: 300px;
+    outline: none;
+}
+
+#login-conatiner>input:focus {
+    border: 1px solid var(--green);
+}
+
+#login-footer {
+    text-align: right;
+}
+
+#login-footer>.button-cancel {
+    background-color: white;
+    border: 1px solid gray;
+    padding: 10px 20px;
+    border-radius: 50px;
+    margin: 5px;
+    cursor: pointer;
+}
+
+#login-footer>.button-cancel:hover {
+    background-color: gray;
+    color: white;
+}
+
+#login-footer>.button-login {
+    background-color: var(--green);
+    padding: 10px 20px;
+    border-radius: 50px;
+    border: 1px solid var(--green);
+    color: white;
+    margin: 5px;
+    cursor: pointer;
+}
+
+#login-footer>.button-login:hover {
+    background-color: white;
+    color: var(--green);
+}
+
+#accounts-container>div>#user-profile-button {
+    background-color: transparent;
+    border: 1px solid white;
+    border-radius: 50px;
+    color: white;
+    padding: 10px 20px;
+}
+
+#accounts-container>div>#user-profile-button:hover {
+    background-color: white;
+    color: var(--black);
+}

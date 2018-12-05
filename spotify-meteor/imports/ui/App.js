@@ -9,7 +9,7 @@ import Session from "./session/Session";
 import Modal from "./modal/Modal";
 import { CookiesProvider } from "react-cookie";
 
-export const BACKEND_URL = "http://localhost:3000";
+export const BACKEND_URL = "https://spot-it-fy.herokuapp.com";
 
 class App extends Component {
 
@@ -76,13 +76,9 @@ class App extends Component {
     let content = (
       <div id="spotitfy-instructions-container">
         <div>
-          <h1>Select a playlist</h1>
-        </div>
-        <div>
-          <h1>Play with your friends</h1>
-        </div>
-        <div>
-          <h1>Guess the song</h1>
+          <h1>How many songs can you identify?</h1>
+          <span>Play it with your friends</span>
+          <button>START</button>
         </div>
       </div>
     );
@@ -93,8 +89,13 @@ class App extends Component {
 
     return (
       <div>
-        <AccountsUIWrapper/>
-        <div id="spotitfy-img" ref={this.imgBannerRef}/>
+        <AccountsUIWrapper 
+          openModal={this.openModal}
+          closeModal={this.closeModal}
+          showErrorModal={this.errorModal}/>
+        <div id="spotitfy-img-container">
+          <div id="spotitfy-img" ref={this.imgBannerRef}/>
+        </div>
         {this.props.user
           ?
           <CookiesProvider>
