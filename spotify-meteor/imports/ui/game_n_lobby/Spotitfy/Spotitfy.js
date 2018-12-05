@@ -73,26 +73,26 @@ class Spotitfy extends Component {
     }
 
     if ( this.state.currentTrack < this.props.curr_session.config.playlist.tracks.length ) {
-
+      let tempArray = JSON.parse(JSON.stringify(this.props.fullPlaylist.tracks.items));
+      
       // Get correct song
       let origIndex = -1;
-      const orig = this.props.fullPlaylist.tracks.items.filter( i => {
-        if(i.track.uri === this.props.curr_session.config.playlist.tracks[ this.state.currentTrack ].uri){
-          origIndex = i;
+      const orig = tempArray.filter( (i, index) => {
+        if(i.track.uri === tempArray[ this.state.currentTrack ].track.uri){
+          origIndex = index;
           return true;
         }
         return false;
       } )[ 0 ];
 
-      let tempArray = JSON.parse(JSON.stringify(this.props.fullPlaylist.tracks.items));
       // Remove correct song from other possibilities
       tempArray.splice(origIndex, 1);
       // Get 4 random songs from array that does not contain correct song
       let opts = randomSamples( tempArray, 4 );
-      // Push correct song
-      opts.push( orig );
       // Map them to String
       opts = opts.map( songToString );
+      // Push correct song (Mapped)
+      opts.push( songToString( orig ));
       // Shuffle the options
       opts = shuffle( opts );
 
@@ -102,7 +102,7 @@ class Spotitfy extends Component {
         this.setState( { currentTrack: this.state.currentTrack + 1, options: opts, actualTrack: songToString(orig), disabled: false, loading: false },
           () => {
             this.timeout && clearTimeout(this.timeout);
-            this.playSongURI( this.props.curr_session.config.playlist.tracks[ this.state.currentTrack - 1 ].uri, true,
+            this.playSongURI( orig.track.uri, true,
               () => {
                 this.timeout = setTimeout( () => {
                   Meteor.call( "session.nextSong", this.props.curr_session.id );
