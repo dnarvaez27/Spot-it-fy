@@ -20,8 +20,8 @@ export function setupApi() {
   app.use( cookieParser() );
 
     const PORT = 3000;
-    // const URL = "https://spot-it-fy.herokuapp.com";
-    const URL = "http://localhost:3000";
+    const URL = "https://spot-it-fy.herokuapp.com";
+    // const URL = "http://localhost:3000";
     const TOKEN_URL = "https://accounts.spotify.com/api/token";
     const CLIENT_ID = process.env.CLIENT_ID || "fd95c5089ee245fb9d1c4d5742ccfc2f";
     const CLIENT_SECRET = process.env.CLIENT_SECRET || "04e2e5e2b38d4335b4111881702c57a5";

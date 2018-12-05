@@ -9,8 +9,8 @@ import Session from "./game_n_lobby/Session/Session";
 import Modal from "./modal/Modal";
 import { CookiesProvider } from "react-cookie";
 
-// export const BACKEND_URL = "https://spot-it-fy.herokuapp.com";
-export const BACKEND_URL = "http://localhost:3000";
+export const BACKEND_URL = "https://spot-it-fy.herokuapp.com";
+// export const BACKEND_URL = "http://localhost:3000";
 
 class App extends Component {
 
