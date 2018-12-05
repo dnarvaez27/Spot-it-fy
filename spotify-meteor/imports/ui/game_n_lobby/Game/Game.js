@@ -2,9 +2,9 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Meteor } from "meteor/meteor";
 import { withTracker } from "meteor/react-meteor-data";
-import { Sessions } from "../../api/sessions";
+import { Sessions } from "../../../api/sessions";
 import "./Game.css";
-import GameSetup from "../GameSetup/GameSetup";
+import GameSetup from "../../setup/GameSetup/GameSetup";
 import Players from "../Players/Players";
 import BasicInfo from "../BasicInfo/BasicInfo";
 import Spotitfy from "../Spotitfy/Spotitfy";
@@ -39,43 +39,54 @@ class Game extends Component {
   }
 
   render() {
-
     if(this.props.session.config.playlist && !this.state.playlistData){
       this.loadPlaylist();
     }
 
-    // console.log("sessionID: ",this.props.sessionID);
-    let toRender = <Players session={this.props.session}/>;
-    if ( this.state.state === 1 ) {
-      toRender = <GameSetup spotify={this.props.spotify_tokens} toLobby={this.toLobby.bind( this )}
-        sessionID={this.props.sessionID}/>;
+    let render = (
+      <Spotitfy
+        session={this.props.session}
+        spotify_tokens={this.props.spotify_tokens}
+        fullPlaylist={this.state.playlistData}
+        changeState={this.props.changeState}/>
+    );
+
+    if(!this.props.session.gameStart){
+      let start = "";
+      if(Meteor.user().username === Object.keys( this.props.session.users )[ 0 ]){
+        if(this.props.session.config.duration !== undefined){
+          start = (
+            <div className="playButtonContainer">
+              <button onClick={this.startGame.bind( this )} className="gameStart">Start game</button>
+            </div>
+          );
+        }
+      }
+      else{
+        start = <h1 className="pleaseWait">Please wait while party leader starts the game</h1>;
+      }
+
+      let toRender = <Players session={this.props.session}/>;
+      if ( this.state.state === 1 ) {
+        toRender =(
+          <GameSetup
+            spotify={this.props.spotify_tokens}
+            toLobby={this.toLobby.bind( this )}
+            sessionID={this.props.sessionID}/>
+        );
+      }
+
+      render = (
+        <div>
+          <BasicInfo session={this.props.session} changeState={this.props.changeState}/>
+          {start}
+          {toRender}
+        </div>
+      );
     }
 
-    let pregame = (<div>
-      <BasicInfo session={this.props.session} changeState={this.props.changeState}/>
-      {Meteor.user().username === Object.keys( this.props.session.users )[ 0 ] ?
-        this.props.session.config.duration === undefined ?
-          ""
-          :
-          <div className="playButtonContainer">
-            <button onClick={this.startGame.bind( this )} className="gameStart">Start game</button>
-          </div>
-        :
-        <h1 className="pleaseWait">Please wait while party leader starts the game</h1>}
-      {toRender}
-    </div>);
-
     return (
-      <div>
-        {this.props.session.gameStart ?
-          <Spotitfy
-            session={this.props.session}
-            spotify_tokens={this.props.spotify_tokens}
-            fullPlaylist={this.state.playlistData}
-            changeState={this.props.changeState}/>
-          :
-          pregame}
-      </div>
+      <div>{render}</div>
     );
   }
 }

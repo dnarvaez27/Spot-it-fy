@@ -4,6 +4,7 @@ import SelectPlaylist from "../SelectPlaylist/SelectPlaylist";
 import PropTypes from "prop-types";
 import TuneParameters from "../TuneParameters/TuneParameters";
 
+// Shows the setup of the session game. Shows either the selection of the playlist or the config variables to play
 export default class GameSetup extends Component {
   constructor( props ) {
     super( props );
@@ -11,23 +12,28 @@ export default class GameSetup extends Component {
   }
 
   selectedPlaylist( playlistId ) {
-    console.log( playlistId );
     this.setState( { playListSelected: true, playListId: playlistId } );
   }
 
   render() {
+    let render = undefined;
+    if(this.state.playListSelected){
+      render = (
+        <TuneParameters
+          spotify={this.props.spotify}
+          playlistID={this.state.playListId}
+          toLobby={this.props.toLobby}
+          sessionID={this.props.sessionID}/>
+      );
+    }
+    else{
+      render = (
+        <SelectPlaylist spotify={this.props.spotify} selectPlaylist={this.selectedPlaylist.bind( this )}/>
+      );
+    }
+
     return (
-      <div>
-        {this.state.playListSelected ?
-          <TuneParameters
-            spotify={this.props.spotify}
-            playlistID={this.state.playListId}
-            toLobby={this.props.toLobby}
-            sessionID={this.props.sessionID}/>
-          :
-          <SelectPlaylist spotify={this.props.spotify} selectPlaylist={this.selectedPlaylist.bind( this )}/>
-        }
-      </div>
+      <div>{render}</div>
     );
   }
 }

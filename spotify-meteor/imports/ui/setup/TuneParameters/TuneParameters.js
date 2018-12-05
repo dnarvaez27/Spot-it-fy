@@ -38,7 +38,6 @@ export default class TuneParameters extends Component {
     const locDur = parseInt( this.durTracks.current.value );
     if ( locTracks <= 0 ) {
       alert( "The number of tracks must be positive." );
-
     }
     else {
       if ( locTracks > this.state.playlist.tracks.items.length ) {
@@ -49,26 +48,19 @@ export default class TuneParameters extends Component {
           alert( "The duration of the track must be between 5 and 30 seconds long." );
         }
         else {
-
           let tracks = randomSamples( this.state.playlist.tracks.items, locTracks );
           let cleanTracks = [];
           for ( let t of tracks ) {
             cleanTracks.push( { uri: t.track.uri } );
           }
-          let playlist =
-            {
-              id: this.props.playlistID,
-              tracks: cleanTracks,
-              name: this.state.playlist.name
-            };
-
-          // console.log("sessionID: ",this.props.sessionID);
-          // console.log("playlist: ",playlist);
-          // console.log("locDur: ",locDur);
+          let playlist = {
+            id: this.props.playlistID,
+            tracks: cleanTracks,
+            name: this.state.playlist.name
+          };
 
           Meteor.call( "session.config", this.props.sessionID, playlist, locDur, this.state.playlist.images[ 0 ].url,
             () => {
-              console.log( "session config updated succesfully." );
               this.props.toLobby( this.state.playlist );
             } );
         }
@@ -77,7 +69,6 @@ export default class TuneParameters extends Component {
   }
 
   render() {
-
     let toRender = (
       <div className="cssload-spin-box"/>
     );
@@ -93,7 +84,6 @@ export default class TuneParameters extends Component {
               <p className="fixFuckup">Tracks: {this.state.playlist.tracks.items.length}</p>
             </div>
           </div>
-
           <form className="configForm">
             <div className="labelContainer">
               <label className="fixFuckup">
@@ -102,7 +92,6 @@ export default class TuneParameters extends Component {
                 </h2>
                 <input className="coolInput" type="number" name="#ofTracks" ref={this.numTracks}/>
               </label>
-
               <label className="fixFuckup">
                 <h2 className="fixFuckup">
                   Duration of each track (seconds):
@@ -112,23 +101,23 @@ export default class TuneParameters extends Component {
               <br/>
               <br/>
               <div className="buttonDiv">
-                <input className="playButton" onClick={this.submitForm.bind( this )} type="button"
+                <input
+                  className="playButton"
+                  onClick={this.submitForm.bind( this )}
+                  type="button"
                   value="Save configurations"/>
               </div>
             </div>
           </form>
           <br/>
           <br/>
-
         </div>
       );
     }
 
-
     return (toRender);
   }
 }
-
 
 TuneParameters.propTypes = {
   spotify: PropTypes.object.isRequired,

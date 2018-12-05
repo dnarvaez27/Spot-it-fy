@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 
+// Shows the basic information about the current session game
 export default class BasicInfo extends Component {
   render() {
     return (

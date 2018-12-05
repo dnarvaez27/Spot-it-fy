@@ -1,0 +1,36 @@
+.SelectPlaylist {
+    color: var(--white);
+
+}
+
+.playlistsContainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    justify-content: space-between;
+    margin: 80px;
+}
+
+.playlistsTitle {
+    text-align: center;
+}
+
+#search-container{
+    text-align: center;
+}
+
+#search-container > input {
+    padding: 10px 20px;
+    border-radius: 50px 0 0 50px;
+    border: 1px solid transparent;
+    outline: none;
+}
+
+#search-container > button {
+    background-color: white;
+    border: 1px solid transparent;
+    padding: 10px 20px;
+    border-radius: 0 50px 50px 0;
+    outline: none;
+    cursor: pointer;
+}

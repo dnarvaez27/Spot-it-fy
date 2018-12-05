@@ -5,11 +5,12 @@ import axios from "axios";
 import AccountsUIWrapper from "./AccountsUIWrapper";
 import { withTracker } from "meteor/react-meteor-data";
 import { Meteor } from "meteor/meteor";
-import Session from "./session/Session";
+import Session from "./game_n_lobby/Session/Session";
 import Modal from "./modal/Modal";
 import { CookiesProvider } from "react-cookie";
 
-export const BACKEND_URL = "https://spot-it-fy.herokuapp.com";
+// export const BACKEND_URL = "https://spot-it-fy.herokuapp.com";
+export const BACKEND_URL = "http://localhost:3000";
 
 class App extends Component {
 
@@ -99,7 +100,8 @@ class App extends Component {
         {this.props.user
           ?
           <CookiesProvider>
-            <Session imgBannerRef={this.imgBannerRef}
+            <Session
+              imgBannerRef={this.imgBannerRef}
               openModal={this.openModal}
               closeModal={this.closeModal}
               showErrorModal={this.errorModal}/>

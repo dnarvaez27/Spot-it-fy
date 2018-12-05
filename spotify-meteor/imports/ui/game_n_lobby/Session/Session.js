@@ -2,12 +2,11 @@ import React, { Component } from "react";
 import PropTypes, { instanceOf } from "prop-types";
 import { Meteor } from "meteor/meteor";
 import { withTracker } from "meteor/react-meteor-data";
-import { Sessions } from "../../api/sessions";
 import "./Session.css";
-import Game from "../game/Game";
+import Game from "../Game/Game";
 import { Cookies, withCookies } from "react-cookie";
-// import axios from "axios";
-import { BACKEND_URL } from "../App";
+import { BACKEND_URL } from "../../App";
+import SelectGame from "../SelectGame/SelectGame";
 
 class Session extends Component {
 
@@ -18,9 +17,8 @@ class Session extends Component {
       sessionID: 0,
       spotify_tokens: {}
     };
-    this.createSession = this.createSession.bind( this );
-    this.joinSession = this.joinSession.bind( this );
     this.changeState = this.changeState.bind( this );
+    this.updateSession = this.updateSession.bind( this );
   }
 
   componentDidMount() {
@@ -28,7 +26,6 @@ class Session extends Component {
       access_token: this.props.cookies.get( "spotify_access_token" ),
       redirect_token: this.props.cookies.get( "spotify_refresh_token" )
     };
-
     if ( !spotify.access_token ) {
       const goToAuth = () => {
         window.open( `${BACKEND_URL}/login`, "_self" );
@@ -48,20 +45,6 @@ class Session extends Component {
           </div>
         )
       }, undefined, () => false );
-      // setTimeout(() =>{
-      //   axios.get(`${BACKEND_URL}/refresh_token?refresh_token=${this.props.user.rToken}`)
-      //     .then( response => {
-      //       let spotify_tokens = this.state.spotify_tokens;
-      //       console.log(spotify_tokens);
-      //       spotify_tokens["access_token"] = response.data.access_token;
-      //       console.log(spotify_tokens);
-      //       this.setState( { spotify_tokens } );
-      //     })
-      //     .catch(() => {
-      //       console.log("error en el Token");
-      //
-      //     });
-      // }, 1000);
     }
     else {
       Meteor.call( "user.addRefreshToken", this.props.user._id, spotify.redirect_token );
@@ -96,67 +79,13 @@ class Session extends Component {
       } );
   }
 
-  createSession() {
-    let curSession = this.props.sessions;
-    curSession = isNaN( curSession ) ? 1 : curSession + 1;
-    Meteor.call( "session.create", curSession, this.props.user,
-      () => {
-        this.setState( { state: 1, sessionID: curSession } );
-      } );
-  }
-
-  joinSession() {
-    let inputValue = "";
-    let self = this;
-    let inputRef = React.createRef();
-
-    function join() {
-      let sessionID = parseInt( inputValue );
-      Meteor.call( "session.join", sessionID, self.props.user,
-        ( error ) => {
-          if ( !error ) {
-            self.setState( { state: 2, sessionID: sessionID } );
-            self.props.closeModal();
-          }
-          else {
-            self.props.showErrorModal( error.error );
-          }
-        } );
-    }
-
-    function handleChange( ev ) {
-      inputValue = ev.target.value;
-    }
-
-    function onKeyPress( ev ) {
-      if ( ev.key === "Enter" ) {
-        join();
-      }
-    }
-
-    this.props.openModal( {
-      title: "Join Session",
-      body: (
-        <div id="session-join-content">
-          <input type="number" min="1" placeholder="Session ID" onChange={handleChange}
-            ref={inputRef} onKeyPress={onKeyPress}/>
-        </div>
-      ),
-      foot: (
-        <div id="session-join-ok-content">
-          <button onClick={join}>
-            <i className="fas fa-check"/>
-          </button>
-        </div>
-      )
-    }, () => {
-      inputRef.current.focus();
-    } );
-  }
-
   changeState(num){
     this.props.imgBannerRef.current.classList.remove( "banner-non-display" );
     this.setState({state: num});
+  }
+
+  updateSession(state, sessionID){
+    this.setState( { state: state, sessionID: sessionID} );
   }
 
   render() {
@@ -164,14 +93,11 @@ class Session extends Component {
 
     if ( this.state.state === 0 ) {
       status = (
-        <div id="session-choice-container">
-          <div onClick={this.createSession}>
-            <h1>Create</h1>
-          </div>
-          <div onClick={this.joinSession}>
-            <h1>Join</h1>
-          </div>
-        </div>
+        <SelectGame
+          openModal={this.props.openModal}
+          closeModal={this.props.closeModal}
+          showErrorModal={this.props.showErrorModal}
+          updateSession={this.updateSession}/>
       );
     }
     else {
@@ -186,9 +112,7 @@ class Session extends Component {
     }
 
     return (
-      <div>
-        {status}
-      </div>
+      <div>{status}</div>
     );
   }
 }
@@ -198,7 +122,6 @@ export default withTracker( () => {
   Meteor.subscribe( "user.info" );
 
   return {
-    sessions: Sessions.find( {} ).count(),
     user: Meteor.user()
   };
 } )( withCookies( Session ) );
@@ -206,7 +129,6 @@ export default withTracker( () => {
 Session.propTypes = {
   cookies: instanceOf( Cookies ).isRequired,
   user: PropTypes.object,
-  sessions: PropTypes.number,
   openModal: PropTypes.func,
   closeModal: PropTypes.func,
   showErrorModal: PropTypes.func,

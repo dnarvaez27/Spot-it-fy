@@ -3,11 +3,11 @@ import BasicInfo from "../BasicInfo/BasicInfo";
 import PropTypes from "prop-types";
 import "./Spotitfy.css";
 import axios from "axios";
-import { randomSamples } from "../TuneParameters/TuneParameters";
+import { randomSamples } from "../../setup/TuneParameters/TuneParameters";
 import { Meteor } from "meteor/meteor";
 import { withTracker } from "meteor/react-meteor-data";
-import { Sessions } from "../../api/sessions";
-
+import { Sessions } from "../../../api/sessions";
+import { Leaderboard } from "../Leaderboard/Leaderboard";
 
 function shuffle( a ) {
   for ( let i = a.length - 1; i > 0; i-- ) {
@@ -66,7 +66,6 @@ class Spotitfy extends Component {
   }
 
   next() {
-
     function songToString(t){
       let track = t.track.name;
       let artists = t.track.artists.map( a => a.name ).join( ", " );
@@ -128,13 +127,6 @@ class Spotitfy extends Component {
   }
 
   render() {
-
-    let leader = (
-      Object.keys( this.props.curr_session.users ).sort( ( a, b ) => {
-        return this.props.curr_session.users[ b ].score - this.props.curr_session.users[ a ].score;
-      } )
-    );
-
     return (
       <div>
         <BasicInfo session={this.props.curr_session} changeState={this.props.changeState}/>
@@ -157,19 +149,7 @@ class Spotitfy extends Component {
               </div>
             }
           </div>
-          <div className="leaderBoard">
-            <h2 className="whiteAndCenter">Leaderboard</h2>
-            {leader.map( ( user, i ) => {
-              return (
-                <div className="whiteAndCenter" key={user}>
-                  {this.props.curr_session.endOfGame && i === 0
-                    ? <h1><i className="fas fa-crown"/>{`${user}:${this.props.curr_session.users[ user ].score}`}</h1>
-                    : <span>({`${user}:${this.props.curr_session.users[ user ].score}`})</span>
-                  }
-                </div>
-              );
-            } )}
-          </div>
+          <Leaderboard curr_session={this.props.curr_session}/>
         </div>
       </div>
     );
