@@ -8,6 +8,7 @@
     left: 10px;
     top: 50%;
     transform: translateY(-50%);
+    justify-items: center;
 }
 
 #session-choice-container > div {
@@ -18,6 +19,7 @@
     cursor: pointer;
     border: 2px solid var(--white);
     border-radius: 100px;
+    width : 600px ;
 }
 
 #session-choice-container > div:hover {
