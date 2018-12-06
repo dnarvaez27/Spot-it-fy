@@ -109,41 +109,6 @@ body {
     display: block;
 }
 
-/* #spotitfy-instructions-container > div {
-    padding: 55px 50px;
-    border-radius: 20px;
-    box-shadow: 0 0 12px -3px black;
-    font-size: 1.3em;
-    line-height: 0;
-}
-
-#spotitfy-instructions-container > div:nth-child(1) {
-    background-color: var(--black);
-    transform: rotate(10deg) translate(20px, 77px);
-    z-index: 1;
-    border: 2px solid white;
-    color: white;
-}
-
-#spotitfy-instructions-container > div:nth-child(2) {
-    background-color: var(--green);
-    z-index: 2;
-    transform: rotate(-2deg);
-    text-align: right;
-}
-
-#spotitfy-instructions-container > div:nth-child(3) {
-    background-color: var(--black);
-    transform: rotate(4deg) translateY(-30px);
-    border: 2px solid white;
-    color: white;
-    text-align: center;
-}
-
-#spotitfy-instructions-container {
-    padding: 20px;
-} */
-
 button {
     outline: none;
 }
@@ -225,4 +190,71 @@ button {
 #accounts-container>div>#user-profile-button:hover {
     background-color: white;
     color: var(--black);
+}
+
+#start-modal-body-container {
+    display: inline-flex;
+}
+
+#start-modal-foot-container {
+    padding: 0 20px;
+    display: flex;
+    flex-direction: column;
+    vertical-align: middle;
+    position: relative;
+}
+
+#start-modal-body-container>img {
+    width: 300px;
+    height: 300px;
+    border-radius: 0;
+    box-shadow: 0 0px 20px -1px black;
+}
+
+#start-modal-foot-container {
+    width: 200px;
+}
+
+#start-modal-foot-container>span {
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.3em;
+}
+
+#start-modal-foot-container>div {
+    display: grid;
+    margin: auto;
+}
+
+#start-modal-foot-container>div>button {
+    display: block;
+    padding: 5px 50px;
+    background-color: white;
+    border: 2px solid transparent;
+    border-radius: 50px;
+    cursor: pointer;
+    margin: 5px;
+    font-weight: bold;
+    font-size: 1em;
+}
+
+#start-modal-foot-container>div>button:nth-child(1) {
+    background-color: var(--green);
+    color: white;
+}
+
+#start-modal-foot-container>div>button:nth-child(1):hover {
+    background-color: white;
+    border: 2px solid var(--green);
+    color: var(--green);
+}
+
+#start-modal-foot-container>div>button:nth-child(2) {
+    border: 2px solid lightgray;
+}
+
+#start-modal-foot-container>div>button:nth-child(2):hover {
+    background-color: var(--black);
+    border: 2px solid var(--black);
+    color: white;
 }
