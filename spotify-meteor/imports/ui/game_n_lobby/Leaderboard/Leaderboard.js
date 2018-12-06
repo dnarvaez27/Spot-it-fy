@@ -37,6 +37,19 @@ export class Leaderboard extends React.Component {
     return leader[0];
   }
 
+  tablePlayers(){
+    return (
+      <div className="whiteAndCenter">
+        <div className="grid-container">
+          <div className="grid-item"><b>Rank</b></div>
+          <div className="grid-item"><b>Username</b></div>
+          <div className="grid-item"><b>Points</b></div>
+    
+          {this.renderUsersLeaderboard()}
+        </div>
+      </div>);
+  }
+
   render() {
     
 
@@ -50,20 +63,15 @@ export class Leaderboard extends React.Component {
             <br/>
             <h1><b>{this.winner()}</b></h1>
             <p>{this.props.curr_session.users[ this.winner() ].score} points</p>
+            <br/>
+            <br/>
+            {this.tablePlayers()}
           </div>
           :
           <div>
             <h2 className="whiteAndCenter">Leaderboard</h2>
   
-            <div className="whiteAndCenter">
-              <div className="grid-container">
-                <div className="grid-item"><b>Rank</b></div>
-                <div className="grid-item"><b>Username</b></div>
-                <div className="grid-item"><b>Points</b></div>
-              
-                {this.renderUsersLeaderboard()}
-              </div>
-            </div>
+            {this.tablePlayers()}
           </div>
         }
         
@@ -72,10 +80,6 @@ export class Leaderboard extends React.Component {
   }
 }
 
-// {/* {this.props.curr_session.endOfGame && i === 0
-//   ? <h1><i className="fas fa-crown"/>{`${user}:${this.props.curr_session.users[ user ].score}`}</h1>
-//   : <span>({`${user}:${this.props.curr_session.users[ user ].score}`})</span>
-// } */}
 
 Leaderboard.propTypes = {
   curr_session: PropTypes.object.isRequired,
