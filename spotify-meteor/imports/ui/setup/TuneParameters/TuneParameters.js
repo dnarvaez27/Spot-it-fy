@@ -51,7 +51,7 @@ export default class TuneParameters extends Component {
           let tracks = randomSamples( this.state.playlist.tracks.items, locTracks );
           let cleanTracks = [];
           for ( let t of tracks ) {
-            cleanTracks.push( { uri: t.track.uri } );
+            cleanTracks.push( { uri: t.track.uri, name: t.track.name, artists: t.track.artists } );
           }
           let playlist = {
             id: this.props.playlistID,

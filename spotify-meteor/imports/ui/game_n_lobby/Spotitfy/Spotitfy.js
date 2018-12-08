@@ -68,18 +68,18 @@ class Spotitfy extends Component {
 
   next() {
     function songToString(t){
-      let track = t.track.name;
-      let artists = t.track.artists.map( a => a.name ).join( ", " );
+      let track = t.name;
+      let artists = t.artists.map( a => a.name ).join( ", " );
       return `${track} - ${artists}`;
     }
 
     if ( this.state.currentTrack < this.props.curr_session.config.playlist.tracks.length ) {
-      let tempArray = JSON.parse(JSON.stringify(this.props.fullPlaylist.tracks.items));
+      let tempArray = JSON.parse(JSON.stringify(this.props.curr_session.config.playlist.tracks));
       
       // Get correct song
       let origIndex = -1;
       const orig = tempArray.filter( (i, index) => {
-        if(i.track.uri === tempArray[ this.state.currentTrack ].track.uri){
+        if(i.uri === tempArray[ this.state.currentTrack ].uri){
           origIndex = index;
           return true;
         }
@@ -103,7 +103,7 @@ class Spotitfy extends Component {
         this.setState( { currentTrack: this.state.currentTrack + 1, options: opts, actualTrack: songToString(orig), disabled: false, loading: false },
           () => {
             this.timeout && clearTimeout(this.timeout);
-            this.playSongURI( orig.track.uri, true,
+            this.playSongURI( orig.uri, true,
               () => {
                 this.timeout = setTimeout( () => {
                   Meteor.call( "session.nextSong", this.props.curr_session.id );
